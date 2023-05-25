@@ -1,0 +1,10 @@
+/backend/.vs
+/backend/AnanaPhone/bin
+/backend/AnanaPhone/obj
+/docker/data-mail
+/docker/data-minio
+/docker/data-mongo
+/docker/data-vmail
+/frontend/.quasar
+/frontend/node_modules
+/frontend/yarn.lock

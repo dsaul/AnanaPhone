@@ -1,0 +1,17 @@
+extend context confbridge-admin {
+	h => Hangup();
+	failed => Hangup();
+	_. => {
+		ConfBridge(${EXTEN},default_bridge,admin_user);
+		Hangup();
+	}
+}
+
+extend context confbridge-external {
+	h => Hangup();
+	failed => Hangup();
+	_. => {
+		ConfBridge(${EXTEN},default_bridge,default_user);
+		Hangup();
+	}
+}

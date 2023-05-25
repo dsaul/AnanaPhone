@@ -1,0 +1,75 @@
+FROM debian:11
+
+
+RUN mkdir -p /vmail
+
+VOLUME /vmail
+# sip
+EXPOSE 5060/udp
+EXPOSE 5060/tcp
+# rtp
+EXPOSE 5100-5200/udp
+EXPOSE 5100-5200/tcp
+# ami
+EXPOSE 5038/tcp
+
+# SSHD
+EXPOSE 5039/tcp
+
+RUN apt-get update && apt-get install -y \
+	ca-certificates \
+	&& update-ca-certificates
+
+ADD https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb /packages-microsoft-prod.deb
+RUN dpkg -i /packages-microsoft-prod.deb && rm /packages-microsoft-prod.deb
+
+RUN apt-get update && apt-get install -y \
+	openssh-client \
+	bash \
+	curl \
+	cron \
+	sudo \
+	asterisk \
+	htop \
+	sngrep \
+	dos2unix \
+	iproute2 \
+	inetutils-ping \
+	nano \
+	wget \
+	openssh-server \
+	dotnet-sdk-7.0 \
+	&& rm -rf /var/lib/apt/lists/*
+	
+RUN rm -rf /etc/asterisk/ && \
+	mkdir -p /etc/asterisk/_holdmusic
+
+# Setup SSHD
+COPY sshd_config /etc/ssh/sshd_config
+RUN mkdir -p /root/.ssh/
+COPY authorized_keys /root/.ssh/authorized_keys
+RUN dos2unix /etc/ssh/sshd_config \
+	&& dos2unix /root/.ssh/authorized_keys \
+	&& chmod 600 /root/.ssh/authorized_keys \
+	&& chmod 700 /root/.ssh
+
+# Setup Cron
+COPY cron15min.sh /cron15min.sh
+COPY cronDaily.sh /cronDaily.sh
+COPY cronHourly.sh /cronHourly.sh
+COPY cronMonthly.sh /cronMonthly.sh
+COPY cronWeekly.sh /cronWeekly.sh
+COPY entry.sh /entry.sh
+COPY crontab.txt /crontab.txt
+RUN dos2unix /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWeekly.sh /entry.sh && \
+	chmod 755 /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWeekly.sh /entry.sh && \
+	dos2unix /crontab.txt && crontab /crontab.txt
+
+# Configure Asterisk
+COPY asterisk/ /etc/asterisk/
+RUN dos2unix /etc/asterisk/* && \
+	dos2unix /etc/asterisk/extensions.d/* && \
+	dos2unix /etc/asterisk/manager.d/* && \
+	dos2unix /etc/asterisk/pjsip_wizard.d/*
+
+CMD ["/entry.sh"]
