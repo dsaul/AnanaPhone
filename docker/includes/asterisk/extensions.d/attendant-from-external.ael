@@ -1,0 +1,18 @@
+extend context attendant-from-external {
+	_.X => {
+		Set(LANDED_DID=${EXTEN});
+		Set(CALL_TARGET=SeekOwnerOfCallRequest);
+		
+		// If the socket between Asterisk and ARI dies, they will be kicked out and will need to reconnect. 
+		while (true) {
+			AGI(agi://10.5.5.20/AttendantFromExternal);
+			if ("${CALL_TARGET}" = "HangUp") {
+				Hangup();
+				break;
+			}
+		}
+		Hangup();
+	}
+	failed => Hangup();
+	h => Hangup();
+}

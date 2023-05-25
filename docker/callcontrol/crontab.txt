@@ -1,7 +1,0 @@
-#0 4 * * * bash /mysql.sh > /proc/$(cat /var/run/crond.pid)/fd/1 2>&1
-
-*/15    *       *       *       *       bash /cron15min.sh > /proc/$(cat /var/run/crond.pid)/fd/1 2>&1
-0       *       *       *       *       bash /cronHourly.sh > /proc/$(cat /var/run/crond.pid)/fd/1 2>&1
-0       2       *       *       *       bash /cronDaily.sh > /proc/$(cat /var/run/crond.pid)/fd/1 2>&1
-0       3       *       *       6       bash /cronWeekly.sh > /proc/$(cat /var/run/crond.pid)/fd/1 2>&1
-0       5       1       *       *       bash /cronMonthly.sh > /proc/$(cat /var/run/crond.pid)/fd/1 2>&1

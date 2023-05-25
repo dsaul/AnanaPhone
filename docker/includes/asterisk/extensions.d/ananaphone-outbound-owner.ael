@@ -1,0 +1,13 @@
+context ananaphone-outbound-owner
+{
+	includes {
+		outbound;
+	}
+	
+	Debug1 => {
+		Dial(PJSIP/Debug1,40);
+	}
+	Debug2 => {
+		Dial(PJSIP/Debug2,40);
+	}
+}

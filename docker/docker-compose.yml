@@ -1,10 +1,10 @@
 version: '2.0'
 services:
-  callcontrol:
+  ananaphone:
     build:
-      context: ./callcontrol/
-      dockerfile: dockerfile.txt
-    container_name: callcontrol
+      context: ./
+      dockerfile: ./dockerfile.txt
+    container_name: ananaphone
     restart: always
     volumes:
       - ./secrets:/var/run/secrets
@@ -19,10 +19,10 @@ services:
     environment:
      - TZ=America/Winnipeg
     networks:
-     - sip
-  minio:
+     - ananaphone
+  ananaphone-minio:
     image: minio/minio
-    container_name: minio
+    container_name: ananaphone-minio
     ports:
      - "15003:15003" # access
      - "15004:15004" # console
@@ -36,7 +36,7 @@ services:
     restart: always
     command: server --address ":15003" --console-address ":15004" /data
     networks:
-      - sip
+      - ananaphone
 networks:
-  sip:
-    name: sip
+  ananaphone:
+    name: ananaphone
