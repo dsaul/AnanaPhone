@@ -1,8 +1,13 @@
-import { computed } from "vue"
+import { computed } from 'vue';
 
 const useAPIBaseURI = () => {
 	return computed(() => {
-		return 'http://localhost:5224/';
+		
+		if (import.meta.env.DEV) {
+			return 'http://localhost:5040/';
+		} else {
+			return '/';
+		}
 	})
 }
 

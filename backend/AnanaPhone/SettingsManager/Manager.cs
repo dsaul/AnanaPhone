@@ -1,4 +1,5 @@
-﻿using System.Data.SQLite;
+﻿using Serilog;
+using System.Data.SQLite;
 
 namespace AnanaPhone.SettingsManager
 {
@@ -41,6 +42,64 @@ namespace AnanaPhone.SettingsManager
 			DB.Open();
 			return DB;
 		}
+
+		public IEnumerable<string> GetClientChannels()
+		{
+			IEnumerable<E164ClientRow> e164Clients = E164ClientsGetAll();
+			foreach (E164ClientRow client in e164Clients)
+			{
+				if (string.IsNullOrWhiteSpace(client.E164))
+					continue;
+				if (string.IsNullOrWhiteSpace(client.OutboundDevice))
+				{
+					Log.Warning("[{Class}.{Method}()] Number Client {e164} is missing outbound device.",
+						GetType().Name,
+						System.Reflection.MethodBase.GetCurrentMethod()?.Name,
+						client.E164
+					);
+					continue;
+				}
+				if (!client.OutboundDevice.Contains('/'))
+				{
+					Log.Warning("[{Class}.{Method}()] Number Client {e164} is not formatted correctly #1 {outboundDevice}.",
+						GetType().Name,
+						System.Reflection.MethodBase.GetCurrentMethod()?.Name,
+						client.E164,
+						client.OutboundDevice
+					);
+					continue;
+				}
+				string[] parts = client.OutboundDevice.Split('/');
+				if (parts.Length != 2)
+				{
+					Log.Warning("[{Class}.{Method}()] Number Client {e164} is not formatted correctly #2 {outboundDevice}.",
+						GetType().Name,
+						System.Reflection.MethodBase.GetCurrentMethod()?.Name,
+						client.E164,
+						client.OutboundDevice
+					);
+					continue;
+				}
+
+				string tech = parts[0];
+				string name = parts[1];
+
+				yield return $"{tech}/{client.E164.Trim()}@{name}";
+			}
+
+			IEnumerable<string?> pjsipClients = PJSIPWizardConfGetNamesForClientDefaults();
+			foreach (string? pjsipClient in pjsipClients)
+			{
+				yield return $"PJSIP/{pjsipClient}";
+			}
+
+			yield break;
+		}
+
+
+
+
+
 
 		#region IDisposable
 		private bool disposedValue;

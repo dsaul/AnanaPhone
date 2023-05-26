@@ -5,6 +5,8 @@ using Serilog;
 using AsterNET.Manager.Event;
 using AnanaPhone.Calls;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
+using Polly;
+using System.Threading.Channels;
 
 namespace AnanaPhone.AMI
 {
@@ -72,6 +74,12 @@ namespace AnanaPhone.AMI
 
 		}
 
+		public void Reload(string moduleName)
+		{
+			ReloadAction action = new(moduleName);
+			Connection.SendActionAsync(action);
+		}
+
 		public void Originate(
 			string channel,
 			string exten,
@@ -80,17 +88,6 @@ namespace AnanaPhone.AMI
 			IEnumerable<KeyValuePair<string, string>>? variables = null
 			)
 		{
-
-			// Only pre-defined channels are allowed to be called.
-			//IEnumerable<string> seekOwnerChannels = Env.ALLOWED_CALL_OUT_E164S;
-
-			// If there are no channels defined, then it is not allowed.
-			//if (!seekOwnerChannels.Any())
-			//	throw new UnauthorizedAccessException("channel-not-allowed");
-			//if (!seekOwnerChannels.Contains(channel))
-			//	throw new UnauthorizedAccessException("channel-not-allowed");
-
-
 			OriginateAction action = new()
 			{
 				Channel = channel,

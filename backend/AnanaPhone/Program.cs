@@ -79,9 +79,6 @@ namespace AnanaPhone
 			ApplicationSharedEarly(builder);
 			ApplicationSharedSingletons(builder);
 
-			
-			builder.Services.AddSingleton<BootManager>();
-
 			Application = builder.Build();
 			Application.Services.GetRequiredService<BootManager>().GenerateForStage1();
 		}
@@ -101,6 +98,7 @@ namespace AnanaPhone
 			builder.Services.AddSingleton<AMIManager>();
 			builder.Services.AddSingleton<ConfBridgeManager>();
 			builder.Services.AddSingleton<HistoricCallManager>();
+			builder.Services.AddSingleton<BootManager>();
 			builder.Services.AddSingleton<VoiceMailManager>();
 			builder.Services.AddSingleton<SettingsManager.Manager>();
 			builder.Services.AddSingleton<AmazonS3Config>((serviceProvider) =>
@@ -142,11 +140,11 @@ namespace AnanaPhone
 				Env.AMI_PW
 			);
 
-			
+
 
 			WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 			ApplicationSharedEarly(builder);
-			
+
 
 			// Add services to the container.
 
@@ -168,7 +166,7 @@ namespace AnanaPhone
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 			ApplicationSharedSingletons(builder);
-			
+
 			builder.Services.AddGraphQL();
 
 			Application = builder.Build();
@@ -187,16 +185,16 @@ namespace AnanaPhone
 				Application.UseSwaggerUI();
 			}
 
-			Application.UseHttpsRedirection();
+			//Application.UseHttpsRedirection();
 
 
 			Application.UseDefaultFiles(); // Must be before UseStaticFiles
 			Application.UseStaticFiles();
 			Application.MapFallbackToFile("/index.html");
+
 			Application.UseRouting();
 			Application.MapControllers();
 			Application.UseGraphQL();
-
 
 
 			Application.UseAuthentication();
@@ -207,10 +205,11 @@ namespace AnanaPhone
 
 
 			// Pass Selected Environment Variables Through to Frontend
-			//Application.MapGet("/env/VITE_MQTT_HOST", async context => {
-			//	context.Response.ContentType = "text/plain";
-			//	await context.Response.WriteAsync(Konstants.VITE_MQTT_HOST ?? "");
-			//});
+			Application.MapGet("/env/VITE_API_ROOT", async context =>
+			{
+				context.Response.ContentType = "text/plain";
+				await context.Response.WriteAsync(Env.VITE_API_ROOT);
+			});
 
 			// Ensure that Managers are instantiated.
 			_ = Application.Services.GetRequiredService<SettingsManager.Manager>();

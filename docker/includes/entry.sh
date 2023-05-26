@@ -1,13 +1,15 @@
 #!/bin/bash
 
+# Working Dir must be /app or dotnet won't find wwwroot
+cd /app
 echo "Start AnanaPhone Boot"
-dotnet /app/AnanaPhone.dll --stage1
+dotnet AnanaPhone.dll --stage1
 
 echo "Start Call Control"
 asterisk
 
 echo "Start AnanaPhone"
-nohup dotnet /app/AnanaPhone.dll &
+nohup dotnet AnanaPhone.dll &
 
 echo "Start SSHD"
 /etc/init.d/ssh start

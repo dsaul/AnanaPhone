@@ -1,5 +1,8 @@
-﻿using GraphQL.AspNet.Attributes;
+﻿using AnanaPhone.Calls;
+using AnanaPhone.SettingsManager;
+using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
+using Serilog;
 
 namespace AnanaPhone.GraphQL
 {
@@ -8,7 +11,7 @@ namespace AnanaPhone.GraphQL
 		[Query("allowedCallOutNumbers")]
 		public IEnumerable<string> GetAllowedCallOutNumbers()
 		{
-			return Env.ALLOWED_CALL_OUT_E164S;
+			return SM.GetClientChannels();
 		}
 	}
 }

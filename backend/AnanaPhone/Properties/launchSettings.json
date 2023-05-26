@@ -29,7 +29,8 @@
             "VMAIL_S3_BUCKET": "vmail",
             "ASTERISK_DEBUG_SSH_PORT_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_DEBUG_SSH_PORT.txt",
             "ASTERISK_DEBUG_SSH_USER_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_DEBUG_SSH_USER.txt",
-            "ASTERISK_DEBUG_SSH_ENABLE": "true"
+            "ASTERISK_DEBUG_SSH_ENABLE": "true",
+            "AMI_PW": "aaa"
         }
     },
     "IIS Express": {
@@ -50,7 +51,8 @@
             "VMAIL_S3_BUCKET": "vmail",
             "ASTERISK_DEBUG_SSH_PORT_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_DEBUG_SSH_PORT.txt",
             "ASTERISK_DEBUG_SSH_USER_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_DEBUG_SSH_USER.txt",
-            "ASTERISK_DEBUG_SSH_ENABLE": "true"
+            "ASTERISK_DEBUG_SSH_ENABLE": "true",
+            "AMI_PW": "aaa"
         }
     }
   }

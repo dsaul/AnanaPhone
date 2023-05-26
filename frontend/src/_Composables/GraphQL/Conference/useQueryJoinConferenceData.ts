@@ -51,7 +51,7 @@ const useQueryJoinConferenceData = (conferenceName: Ref<string | null>) => {
 	},);
 
 	onError((error: ApolloError) => {
-		console.error('useJoinConferenceData error', error);
+		console.error('useQueryJoinConferenceData error', error, conferenceNames.value);
 	});
 
 	const allowedCallOutNumbers = computed(() => {

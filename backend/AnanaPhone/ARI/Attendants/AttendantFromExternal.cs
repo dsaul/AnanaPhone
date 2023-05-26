@@ -21,6 +21,7 @@ namespace AnanaPhone.ARI.Attendants
 		public HistoricCallManager? CHM = Program.Application?.Services.GetRequiredService<HistoricCallManager>();
 		public AmazonS3Client? S3Client = Program.Application?.Services.GetRequiredService<AmazonS3Client>();
 		public VoiceMailManager? VMM = Program.Application?.Services.GetRequiredService<VoiceMailManager>();
+		public SettingsManager.Manager? SM = Program.Application?.Services.GetRequiredService<SettingsManager.Manager>();
 
 		public ActiveCall? ActiveCall { get; set; } = null;
 
@@ -145,8 +146,10 @@ namespace AnanaPhone.ARI.Attendants
 					throw new InvalidOperationException("AMI == null");
 				if (ActiveCall == null)
 					throw new InvalidOperationException("ActiveCall == null");
+				if (SM == null)
+					throw new InvalidOperationException("SM == null");
 
-				IEnumerable<string> seekOwnerChannels = Env.SEEK_OWNER_CHANNELS;
+				IEnumerable<string> seekOwnerChannels = SM.GetClientChannels();
 				if (!seekOwnerChannels.Any())
 					throw new InvalidOperationException("!seekOwnerChannels.Any()");
 

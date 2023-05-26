@@ -6,7 +6,16 @@ namespace AnanaPhone
 	public static class Env
 	{
 		
-
+		public static string VITE_API_ROOT
+		{
+			get
+			{
+				string? payload = Environment.GetEnvironmentVariable("VITE_API_ROOT");
+				if (string.IsNullOrWhiteSpace(payload))
+					return "/";
+				return payload;
+			}
+		}
 
 
 
@@ -355,59 +364,6 @@ namespace AnanaPhone
 					return _payload;
 				return 60 * 60 * 6;
 			}
-		}
-
-		public static IEnumerable<string> SEEK_OWNER_CHANNELS
-		{
-			get
-			{
-				string? payload = Environment.GetEnvironmentVariable("SEEK_OWNER_CHANNELS");
-				if (string.IsNullOrWhiteSpace(payload))
-					throw new InvalidOperationException("SEEK_OWNER_CHANNELS empty or missing.");
-				return payload.Split(',');
-			}
-		}
-
-		public static IEnumerable<string> ALLOWED_CALL_OUT_E164S
-		{
-			get
-			{
-				string? payload = Environment.GetEnvironmentVariable("ALLOWED_CALL_OUT_E164S");
-				if (string.IsNullOrWhiteSpace(payload))
-					throw new InvalidOperationException("ALLOWED_CALL_OUT_E164S empty or missing.");
-
-				return payload.Split(',');
-			}
-
-		}
-
-
-
-		public static string? ADMIN_INITIATED_CALL_OUT_PIN
-		{
-			get
-			{
-				string? payload = Environment.GetEnvironmentVariable("ADMIN_INITIATED_CALL_OUT_PIN");
-				if (string.IsNullOrWhiteSpace(payload))
-				{
-					throw new InvalidOperationException("ADMIN_INITIATED_CALL_OUT_PIN empty or missing.");
-				}
-				return payload;
-			}
-		}
-
-		public static bool ADMIN_INITIATED_CALL_OUT_PIN_DISABLE
-		{
-			get
-			{
-				string? payload = Environment.GetEnvironmentVariable("ADMIN_INITIATED_CALL_OUT_PIN_DISABLE");
-				if (string.IsNullOrWhiteSpace(payload))
-					return false;
-				if (bool.TryParse(payload, out bool _payload))
-					return _payload;
-				return false;
-			}
-
 		}
 
 

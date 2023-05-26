@@ -16,22 +16,31 @@ RUN mkdir -p /app
 ADD ./backend /source
 WORKDIR /source
 RUN rm /source/AnanaPhone/wwwroot/index.html
+WORKDIR /source/AnanaPhone/wwwroot
 COPY --from=buildFrontend /source/dist .
 
 RUN ls -la
 WORKDIR /source/AnanaPhone
 RUN dotnet restore && dotnet publish --output /app --configuration Debug
 
-# # STAGE 3 - Package
+WORKDIR /app
+RUN ls -laR
+
+# STAGE 3 - Package
 FROM maskawanian/dotnet-aspnet-asterisk:7.0 as final
 
-# sip
+# http
+EXPOSE 80/tcp
+
+# SIP
 EXPOSE 5060/udp
 EXPOSE 5060/tcp
-# rtp
+
+# RTP
 EXPOSE 5100-5200/udp
 EXPOSE 5100-5200/tcp
-# ami
+
+# AMI
 EXPOSE 5038/tcp
 
 # SSHD

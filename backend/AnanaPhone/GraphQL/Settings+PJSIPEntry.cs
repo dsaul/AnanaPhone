@@ -16,6 +16,11 @@ namespace AnanaPhone.GraphQL
 			{
 				SM.PJSIPWizardRowDeleteAllForName(name);
 
+				BM.GenerateForStage2();
+				AMI.Reload("pbx_ael.so");
+				AMI.Reload("res_pjsip.so");
+				AMI.Reload("res_pjsip_config_wizard.so");
+
 				status = "success";
 			}
 			catch (UnauthorizedAccessException e)
@@ -51,6 +56,13 @@ namespace AnanaPhone.GraphQL
 				e164.ForceUsesTemplateTo(templateName);
 				e164.ForceRowTemplateTo(isTemplate);
 				SM.PJSIPEntryUpsert(e164);
+
+				BM.GenerateForStage2();
+				AMI.Reload("pbx_ael.so");
+				AMI.Reload("res_pjsip.so");
+				AMI.Reload("res_pjsip_config_wizard.so");
+
+
 				status = "success";
 			}
 			catch (UnauthorizedAccessException e)

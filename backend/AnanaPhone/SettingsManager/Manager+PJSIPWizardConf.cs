@@ -3,6 +3,7 @@ using System.Data.SQLite;
 using AnanaPhone.Extensions;
 using System.Data;
 using MongoDB.Driver;
+using PasswordGenerator;
 
 namespace AnanaPhone.SettingsManager
 {
@@ -64,7 +65,7 @@ namespace AnanaPhone.SettingsManager
 						 ('LocalTest1','hint_exten','100',0,NULL,0,'client_defaults'),
 						 ('LocalTest1','hint_context','extensions',0,NULL,0,'client_defaults'),
 						 ('LocalTest1','inbound_auth/username','LocalTest1',0,NULL,0,'client_defaults'),
-						 ('LocalTest1','inbound_auth/password','LocalTest1',0,NULL,0,'client_defaults');
+						 ('LocalTest1','inbound_auth/password',@password1,0,NULL,0,'client_defaults');
 					INSERT INTO ""pjsip_wizard.conf"" (name,setting,value,template,comment,disabled,uses_template) VALUES
 						 ('LocalTest1','endpoint/callerid','"""" <>',0,NULL,1,'client_defaults'),
 						 ('LocalTest1','aor/max_contacts','99',0,NULL,0,'client_defaults'),
@@ -72,7 +73,7 @@ namespace AnanaPhone.SettingsManager
 						 ('LocalTest2','hint_exten','101',0,NULL,0,'client_defaults'),
 						 ('LocalTest2','hint_context','extensions',0,NULL,0,'client_defaults'),
 						 ('LocalTest2','inbound_auth/username','LocalTest2',0,NULL,0,'client_defaults'),
-						 ('LocalTest2','inbound_auth/password','LocalTest2',0,NULL,0,'client_defaults'),
+						 ('LocalTest2','inbound_auth/password',@password2,0,NULL,0,'client_defaults'),
 						 ('LocalTest2','endpoint/callerid','"""" <>',0,NULL,1,'client_defaults'),
 						 ('LocalTest2','aor/max_contacts','99',0,NULL,0,'client_defaults'),
 						 ('LocalTest3','has_hint','yes',0,NULL,0,'client_defaults');
@@ -80,12 +81,9 @@ namespace AnanaPhone.SettingsManager
 						 ('LocalTest3','hint_exten','102',0,NULL,0,'client_defaults'),
 						 ('LocalTest3','hint_context','extensions',0,NULL,0,'client_defaults'),
 						 ('LocalTest3','inbound_auth/username','LocalTest3',0,NULL,0,'client_defaults'),
-						 ('LocalTest3','inbound_auth/password','LocalTest3',0,NULL,0,'client_defaults'),
+						 ('LocalTest3','inbound_auth/password',@password3,0,NULL,0,'client_defaults'),
 						 ('LocalTest3','endpoint/callerid','"""" <>',0,NULL,1,'client_defaults'),
 						 ('LocalTest3','aor/max_contacts','99',0,NULL,0,'client_defaults'),
-						 ('LocalTest1','remote_hosts','10.0.0.0/8,172.16.0.0/12,192.168.0.0/24',0,NULL,0,'client_defaults'),
-						 ('LocalTest2','remote_hosts','10.0.0.0/8,172.16.0.0/12,192.168.0.0/24',0,NULL,0,'client_defaults'),
-						 ('LocalTest3','remote_hosts','10.0.0.0/8,172.16.0.0/12,192.168.0.0/24',0,NULL,0,'client_defaults'),
 						 ('TrunkOutboundTwilio','sends_auth','no',0,NULL,0,'trunk_defaults');
 					INSERT INTO ""pjsip_wizard.conf"" (name,setting,value,template,comment,disabled,uses_template) VALUES
 						 ('TrunkOutboundTwilio','sends_registrations','no',0,NULL,0,'trunk_defaults'),
@@ -104,6 +102,48 @@ namespace AnanaPhone.SettingsManager
 
 				using SQLiteCommand command = DB.CreateCommand();
 				command.CommandText = sql;
+
+				{
+					SQLiteParameter param = new("@password1", System.Data.DbType.String)
+					{
+						Value = new Password(
+							includeLowercase: true,
+							includeUppercase: true,
+							includeNumeric: true,
+							includeSpecial: false,
+							passwordLength: 20
+						).Next()
+					};
+					command.Parameters.Add(param);
+				}
+				{
+					SQLiteParameter param = new("@password2", System.Data.DbType.String)
+					{
+						Value = new Password(
+							includeLowercase: true,
+							includeUppercase: true,
+							includeNumeric: true,
+							includeSpecial: false,
+							passwordLength: 20
+						).Next()
+					};
+					command.Parameters.Add(param);
+				}
+				{
+					SQLiteParameter param = new("@password3", System.Data.DbType.String)
+					{
+						Value = new Password(
+							includeLowercase: true,
+							includeUppercase: true,
+							includeNumeric: true,
+							includeSpecial: false,
+							passwordLength: 20
+						).Next()
+					};
+					command.Parameters.Add(param);
+				}
+
+
 				var name = command.ExecuteNonQuery();
 
 				Log.Information("[{Class}.{Method}()] Created DB Table version {Version}",

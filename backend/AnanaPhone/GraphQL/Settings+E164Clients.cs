@@ -26,6 +26,11 @@ namespace AnanaPhone.GraphQL
 			{
 				SM.E164ClientUpsert(e164);
 
+				BM.GenerateForStage2();
+				AMI.Reload("pbx_ael.so");
+				AMI.Reload("res_pjsip.so");
+				AMI.Reload("res_pjsip_config_wizard.so");
+
 				status = "success";
 			}
 			catch (UnauthorizedAccessException e)
@@ -58,6 +63,11 @@ namespace AnanaPhone.GraphQL
 			try
 			{
 				SM.E164ClientRemove(e164);
+
+				BM.GenerateForStage2();
+				AMI.Reload("pbx_ael.so");
+				AMI.Reload("res_pjsip.so");
+				AMI.Reload("res_pjsip_config_wizard.so");
 
 				status = "success";
 			}

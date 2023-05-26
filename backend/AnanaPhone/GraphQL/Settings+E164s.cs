@@ -26,6 +26,10 @@ namespace AnanaPhone.GraphQL
 			{
 				SM.E164sUpsert(e164);
 
+				BM.GenerateForStage2();
+				AMI.Reload("pbx_ael.so");
+				AMI.Reload("res_pjsip.so");
+				AMI.Reload("res_pjsip_config_wizard.so");
 
 				status = "success";
 			}
@@ -60,6 +64,10 @@ namespace AnanaPhone.GraphQL
 			{
 				SM.E164sRemove(e164);
 
+				BM.GenerateForStage2();
+				AMI.Reload("pbx_ael.so");
+				AMI.Reload("res_pjsip.so");
+				AMI.Reload("res_pjsip_config_wizard.so");
 
 				status = "success";
 			}

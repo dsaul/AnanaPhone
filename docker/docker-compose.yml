@@ -1,3 +1,4 @@
+#docker build --no-cache --progress=plain -f dockerfile.txt ../
 version: '2.0'
 services:
   ananaphone:
@@ -16,6 +17,7 @@ services:
      - '5060:5060/tcp' # sip
      - '5100-5200:5100-5200/udp' # rtp
      - '5100-5200:5100-5200/tcp' # rtp
+     - '5040:80' # http
      # Below should only be enabled for development
      #- '5038:5038/tcp' # ami
      #- '5039:5039/tcp' # sshd
@@ -36,6 +38,8 @@ services:
      - ASTERISK_DEBUG_SSH_USER_FILE=/secrets/ASTERISK_DEBUG_SSH_USER.txt
      - ASTERISK_DEBUG_SSH_ENABLE=false
      - ASTERISK_EXTERNAL_IP_ADDRESS_FILE=/secrets/ASTERISK_EXTERNAL_IP_ADDRESS.txt
+     - NODE_ENV=development
+     - VITE_NODE_ENV=development
     networks:
      - ananaphone
   ananaphone-minio:
