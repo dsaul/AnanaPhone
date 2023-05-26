@@ -3,12 +3,13 @@ services:
   ananaphone:
     build:
       context: ../
-      dockerfile: ./dockerfile.txt
+      dockerfile: ./docker/dockerfile.txt
     container_name: ananaphone
     restart: always
     volumes:
-      - ./secrets:/var/run/secrets
+      - ./secrets:/secrets
       - ./data-vmail:/vmail
+      - ./data-database:/database
     ports:
      - '5060:5060/udp' # sip
      - '5060:5060/tcp' # sip
@@ -18,6 +19,20 @@ services:
      - '5039:5039/tcp' # sshd
     environment:
      - TZ=America/Winnipeg
+     - ASPNETCORE_ENVIRONMENT=Development
+     - ASTERISK_HOST_FILE=/secrets/ASTERISK_HOST.txt
+     - ASTERISK_AMI_PORT_FILE=/secrets/ASTERISK_AMI_PORT.txt
+     - ASTERISK_AMI_USER_FILE=/secrets/ASTERISK_AMI_USER.txt
+     - ASTERISK_AMI_PASS_FILE=/secrets/ASTERISK_AMI_PASS.txt
+     - SQLITE_DATABASE_DIRECTORY=/database
+     - S3_ACCESS_KEY_FILE=/secrets/S3_ACCESS_KEY.txt
+     - S3_SECRET_KEY_FILE=/secrets/S3_SECRET_KEY.txt
+     - S3_FORCE_PATH_STYLE=true
+     - S3_SERVICE_URI_FILE=/secrets/S3_SERVICE_URI.txt
+     - VMAIL_S3_BUCKET=vmail
+     - ASTERISK_DEBUG_SSH_PORT_FILE=/secrets/ASTERISK_DEBUG_SSH_PORT.txt
+     - ASTERISK_DEBUG_SSH_USER_FILE=/secrets/ASTERISK_DEBUG_SSH_USER.txt
+     - ASTERISK_DEBUG_SSH_ENABLE=false
     networks:
      - ananaphone
   ananaphone-minio:
@@ -28,11 +43,11 @@ services:
      - "15004:15004" # console
     volumes:
      - ./data-minio:/data
-     - ./secrets:/var/run/secrets
+     - ./secrets:/secrets
     environment:
      - TZ=America/Winnipeg
      # https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#configuration-settings
-     - MINIO_CONFIG_ENV_FILE=/var/run/secrets/MINIO_CONFIG_ENV_FILE.txt
+     - MINIO_CONFIG_ENV_FILE=/secrets/MINIO_CONFIG_ENV_FILE.txt
     restart: always
     command: server --address ":15003" --console-address ":15004" /data
     networks:

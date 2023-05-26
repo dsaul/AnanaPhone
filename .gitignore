@@ -5,6 +5,8 @@
 /docker/data-minio
 /docker/data-mongo
 /docker/data-vmail
+/docker/data-database
+/docker/secrets
 /docker/callcontrol/asterisk/_holdmusic/cg.wav
 /docker/callcontrol/asterisk/_holdmusic/faix.wav
 /docker/callcontrol/asterisk/_holdmusic/on1.wav

@@ -1,113 +1,85 @@
 # Stage 1 - frontend
-FROM debian:bookworm as buildFrontend
-
-RUN apt-get update && apt-get install -y \
-	openssh-client \
-	bash \
-	git \
-	curl \
-	sudo \
-	nodejs \
-	npm \
-	&& rm -rf /var/lib/apt/lists/*
-
-RUN npm install --global yarn 
+FROM maskawanian/debian-node-build:bookworm as buildFrontend
 ADD ./frontend /source
 WORKDIR /source
-RUN ls -lR
+#RUN ls -lR
 RUN yarn install && yarn build
 
-# # Stage 2 - api & web server
-# FROM mcr.microsoft.com/dotnet/sdk:7.0 AS buildBackend
+# Stage 2 - api & web server
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS buildBackend
 
-# # Add packages we need.
-# RUN apt-get update && apt-get install -y \
-# 	openssh-client \
-# 	bash \
-# 	ca-certificates \
-# 	git \
-# 	&& update-ca-certificates \
-# 	&& rm -rf /var/lib/apt/lists/*
-# RUN mkdir -p /app
-# ADD ./backend /source
-# WORKDIR /source
-# RUN ls -la
+# Add packages we need.
+RUN apt-get update && apt-get install -y \
+	bash \
+	&& rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /app
+ADD ./backend /source
+WORKDIR /source
+RUN rm /source/AnanaPhone/wwwroot/index.html
+COPY --from=buildFrontend /source/dist .
 
-# RUN rm /source/backend/AnanaPhone/wwwroot/index.html
-# COPY --from=buildFrontend /source/frontend/dist .
-
-# WORKDIR /source/backend/AnanaPhone
-# RUN dotnet restore && dotnet publish --output /app --configuration Debug
+RUN ls -la
+WORKDIR /source/AnanaPhone
+RUN dotnet restore && dotnet publish --output /app --configuration Debug
 
 # # STAGE 3 - Package
-# FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM maskawanian/dotnet-aspnet-asterisk:7.0
 
-# # sip
-# EXPOSE 5060/udp
-# EXPOSE 5060/tcp
-# # rtp
-# EXPOSE 5100-5200/udp
-# EXPOSE 5100-5200/tcp
-# # ami
-# EXPOSE 5038/tcp
+# sip
+EXPOSE 5060/udp
+EXPOSE 5060/tcp
+# rtp
+EXPOSE 5100-5200/udp
+EXPOSE 5100-5200/tcp
+# ami
+EXPOSE 5038/tcp
 
-# # SSHD
-# EXPOSE 5039/tcp
+# SSHD
+EXPOSE 5039/tcp
 
-# RUN mkdir -p /vmail
-# VOLUME /vmail
+# Data Protection Keys
+VOLUME /root/.aspnet/DataProtection-Keys
 
+RUN mkdir -p /vmail && mkdir -p /app
+VOLUME /vmail
 
-# RUN apt-get update && apt-get install -y \
-# 	openssh-client \
-# 	bash \
-# 	curl \
-# 	cron \
-# 	sudo \
-# 	asterisk \
-# 	htop \
-# 	sngrep \
-# 	dos2unix \
-# 	iproute2 \
-# 	inetutils-ping \
-# 	nano \
-# 	wget \
-# 	openssh-server \
-# 	&& rm -rf /var/lib/apt/lists/*
-
-# RUN rm -rf /etc/asterisk/ && \
-# 	mkdir -p /etc/asterisk/_holdmusic
-
-# # Setup SSHD
-# COPY includes/sshd/sshd_config /etc/ssh/sshd_config
-# RUN mkdir -p /root/.ssh/
-# COPY includes/sshd/authorized_keys /root/.ssh/authorized_keys
-# RUN dos2unix /etc/ssh/sshd_config \
-# 	&& dos2unix /root/.ssh/authorized_keys \
-# 	&& chmod 600 /root/.ssh/authorized_keys \
-# 	&& chmod 700 /root/.ssh
-
-# # Setup Cron
-# COPY includes/cron/cron15min.sh /cron15min.sh
-# COPY includes/cron/cronDaily.sh /cronDaily.sh
-# COPY includes/cron/cronHourly.sh /cronHourly.sh
-# COPY includes/cron/cronMonthly.sh /cronMonthly.sh
-# COPY includes/cron/cronWeekly.sh /cronWeekly.sh
-# COPY includes/cron/crontab.txt /crontab.txt
-# COPY includes/entry.sh /entry.sh
-
-# RUN dos2unix /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWeekly.sh /entry.sh && \
-# 	chmod 755 /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWeekly.sh /entry.sh && \
-# 	dos2unix /crontab.txt && crontab /crontab.txt
-
-# # Configure Asterisk
-# COPY includes/asterisk/ /etc/asterisk/
-# RUN dos2unix /etc/asterisk/* && \
-# 	dos2unix /etc/asterisk/extensions.d/* && \
-# 	dos2unix /etc/asterisk/manager.d/* && \
-# 	dos2unix /etc/asterisk/pjsip_wizard.d/*
-
-# COPY --from=buildBackend /app /app
+COPY --from=buildBackend /app /app
 
 
-# CMD ["/entry.sh"]
+
+RUN rm -rf /etc/asterisk/ && \
+	mkdir -p /etc/asterisk/_holdmusic
+
+# Setup SSHD
+COPY docker/includes/sshd/sshd_config /etc/ssh/sshd_config
+RUN mkdir -p /root/.ssh/
+COPY docker/includes/sshd/authorized_keys /root/.ssh/authorized_keys
+RUN dos2unix /etc/ssh/sshd_config \
+	&& dos2unix /root/.ssh/authorized_keys \
+	&& chmod 600 /root/.ssh/authorized_keys \
+	&& chmod 700 /root/.ssh
+
+# Setup Cron
+COPY docker/includes/cron/cron15min.sh /cron15min.sh
+COPY docker/includes/cron/cronDaily.sh /cronDaily.sh
+COPY docker/includes/cron/cronHourly.sh /cronHourly.sh
+COPY docker/includes/cron/cronMonthly.sh /cronMonthly.sh
+COPY docker/includes/cron/cronWeekly.sh /cronWeekly.sh
+COPY docker/includes/cron/crontab.txt /crontab.txt
+COPY docker/includes/entry.sh /entry.sh
+
+RUN dos2unix /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWeekly.sh /entry.sh && \
+	chmod 755 /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWeekly.sh /entry.sh && \
+	dos2unix /crontab.txt && crontab /crontab.txt
+
+# Configure Asterisk
+COPY docker/includes/asterisk/ /etc/asterisk/
+RUN dos2unix /etc/asterisk/* && \
+	dos2unix /etc/asterisk/extensions.d/* && \
+	dos2unix /etc/asterisk/manager.d/* && \
+	dos2unix /etc/asterisk/pjsip_wizard.d/*
+
+
+
+
+CMD ["/entry.sh"]
