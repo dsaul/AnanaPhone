@@ -16,8 +16,9 @@ services:
      - '5060:5060/tcp' # sip
      - '5100-5200:5100-5200/udp' # rtp
      - '5100-5200:5100-5200/tcp' # rtp
-     - '5038:5038/tcp' # ami
-     - '5039:5039/tcp' # sshd
+     # Below should only be enabled for development
+     #- '5038:5038/tcp' # ami
+     #- '5039:5039/tcp' # sshd
     environment:
      - TZ=America/Winnipeg
      - ASPNETCORE_ENVIRONMENT=Development

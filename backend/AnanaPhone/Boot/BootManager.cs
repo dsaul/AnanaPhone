@@ -9,6 +9,8 @@ namespace AnanaPhone.Boot
 	{
 		[AttributeUsage(AttributeTargets.Method)]
 		public class ConfGeneratorAttribute : Attribute { }
+		[AttributeUsage(AttributeTargets.Method)]
+		public class RuntimeReloadableAttribute : Attribute { }
 
 		SettingsManager.Manager SM { get; init; }
 
@@ -25,7 +27,7 @@ namespace AnanaPhone.Boot
 			SM = _SM;
 		}
 
-		public void Run()
+		public void GenerateForStage1()
 		{
 			// Generate config files.
 			Log.Information("[{Class}.{Method}()]",
@@ -54,7 +56,20 @@ namespace AnanaPhone.Boot
 
 		}
 
+		/// <summary>
+		/// Parts of asterisk can be reloaded during runtime, but not all.
+		/// </summary>
+		public void GenerateForStage2()
+		{
+			Type type = GetType();
+			MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
+			foreach (MethodInfo method in methods)
+				if (method.GetCustomAttributes(typeof(ConfGeneratorAttribute), true).Length > 0 &&
+					method.GetCustomAttributes(typeof(RuntimeReloadableAttribute), true).Length > 0
+					)
+					method.Invoke(this, null);
+		}
 		
 
         #region IDisposable

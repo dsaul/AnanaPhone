@@ -2,6 +2,7 @@
 using System.Data.SQLite;
 using AnanaPhone.Extensions;
 using System.Data;
+using MongoDB.Driver;
 
 namespace AnanaPhone.SettingsManager
 {
@@ -88,7 +89,7 @@ namespace AnanaPhone.SettingsManager
 						 ('TrunkOutboundTwilio','sends_auth','no',0,NULL,0,'trunk_defaults');
 					INSERT INTO ""pjsip_wizard.conf"" (name,setting,value,template,comment,disabled,uses_template) VALUES
 						 ('TrunkOutboundTwilio','sends_registrations','no',0,NULL,0,'trunk_defaults'),
-						 ('TrunkOutboundTwilio','remote_hosts','a2-asterisk.pstn.ashburn.twilio.com',0,NULL,0,'trunk_defaults'),
+						 ('TrunkOutboundTwilio','remote_hosts','xxxxxx.pstn.ashburn.twilio.com',0,NULL,0,'trunk_defaults'),
 						 ('TrunkOutboundTwilio','endpoint/context','inbound',0,NULL,0,'trunk_defaults'),
 						 ('TrunkInboundTwilio','remote_hosts','168.86.128.0/18,54.172.60.0/30,54.172.60.0/23,34.203.250.0/23,54.244.51.0/30,54.244.51.0/24,54.171.127.192/30,54.171.127.192/26,52.215.127.0/24,35.156.191.128/30,35.156.191.128/25,3.122.181.0/24,54.65.63.192/30,54.65.63.192/26,3.112.80.0/24,54.169.127.128/30,54.169.127.128/26,3.1.77.0/24,54.252.254.64/30,54.252.254.64/26,3.104.90.0/24,177.71.206.192/30,177.71.206.192/26,18.228.249.0/24,168.86.128.0/18',0,NULL,0,'trunk_defaults'),
 						 ('TrunkInboundTwilio','endpoint/context','inbound',0,NULL,0,'trunk_defaults'),
@@ -131,18 +132,27 @@ namespace AnanaPhone.SettingsManager
 
 		public IEnumerable<string?> PJSIPWizardConfGetNamesForClientDefaults()
 		{
-			if (DB == null)
-				throw new Exception("DB == null");
-
-			return PJSIPWizardRow.NamesForTemplateName(DB, kClientDefaultName);
+			return PJSIPWizardNamesForTemplateName(kClientDefaultName);
 		}
 
 		public IEnumerable<string?> PJSIPWizardConfGetNamesForTrunkDefaults()
 		{
+			return PJSIPWizardNamesForTemplateName(kTrunkDefaultName);
+		}
+
+		public IEnumerable<string?> PJSIPWizardNamesForTemplateName(string name)
+		{
 			if (DB == null)
 				throw new Exception("DB == null");
 
-			return PJSIPWizardRow.NamesForTemplateName(DB, kTrunkDefaultName);
+			return PJSIPWizardRow.NamesForTemplateName(DB, name);
+		}
+		public IEnumerable<string?> TemplateNames()
+		{
+			if (DB == null)
+				throw new Exception("DB == null");
+
+			return PJSIPWizardRow.TemplateNames(DB);
 		}
 
 		public IEnumerable<PJSIPWizardRow> PJSIPWizardConfGetForName(string name)

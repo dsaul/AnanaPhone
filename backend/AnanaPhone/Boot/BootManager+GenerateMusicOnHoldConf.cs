@@ -7,6 +7,7 @@ namespace AnanaPhone.Boot
 	public partial class BootManager : IDisposable
 	{
 		[ConfGenerator]
+		[RuntimeReloadable]
 		public void GenerateMusicOnHoldConf()
 		{
 			// acl.conf

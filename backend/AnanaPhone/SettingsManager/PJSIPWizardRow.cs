@@ -1,9 +1,11 @@
 ﻿using Amazon.Runtime.Internal.Util;
+using AnanaPhone.VoiceMail;
 using GraphQL.AspNet.Attributes;
 using Mono.Unix.Native;
 using Polly;
 using SharedCode.DatabaseSchemas;
 using System.Data;
+using System.Data.Common;
 using System.Data.SQLite;
 
 namespace AnanaPhone.SettingsManager
@@ -49,6 +51,25 @@ namespace AnanaPhone.SettingsManager
 		public string? Comment { get; set; }
 		public bool? Disabled { get; set; }
 		public string? UsesTemplate { get; set; }
+
+
+		[GraphSkip]
+		public static PJSIPWizardRow ForDataReader(DbDataReader reader)
+		{
+			return new()
+			{
+				Id = reader.IsDBNull("id") ? null : reader.GetInt64("id"),
+				Name = reader.IsDBNull("name") ? null : reader.GetString("name"),
+				Setting = reader.IsDBNull("setting") ? null : reader.GetString("setting"),
+				Value = reader.IsDBNull("value") ? null : reader.GetString("value"),
+				Template = reader.IsDBNull("template") ? null : reader.GetBoolean("template"),
+				Comment = reader.IsDBNull("comment") ? null : reader.GetString("comment"),
+				Disabled = reader.IsDBNull("disabled") ? null : reader.GetBoolean("disabled"),
+				UsesTemplate = reader.IsDBNull("uses_template") ? null : reader.GetString("uses_template"),
+			};
+		}
+
+
 
 		[GraphSkip]
 		public static void DeleteAllForName(SQLiteConnection DB, string name)
@@ -106,17 +127,7 @@ namespace AnanaPhone.SettingsManager
 			using SQLiteDataReader reader = command.ExecuteReader();
 			while (reader.Read())
 			{
-				yield return new()
-				{
-					Id = reader.IsDBNull("id") ? null : reader.GetInt64("id"),
-					Name = reader.IsDBNull("name") ? null : reader.GetString("name"),
-					Setting = reader.IsDBNull("setting") ? null : reader.GetString("setting"),
-					Value = reader.IsDBNull("value") ? null : reader.GetString("value"),
-					Template = reader.IsDBNull("template") ? null : reader.GetBoolean("template"),
-					Comment = reader.IsDBNull("comment") ? null : reader.GetString("comment"),
-					Disabled = reader.IsDBNull("disabled") ? null : reader.GetBoolean("disabled"),
-					UsesTemplate = reader.IsDBNull("uses_template") ? null : reader.GetString("uses_template"),
-				};
+				yield return ForDataReader(reader);
 			}
 
 			yield break;
@@ -364,17 +375,31 @@ namespace AnanaPhone.SettingsManager
 			using SQLiteDataReader reader = command.ExecuteReader();
 			while (reader.Read())
 			{
-				yield return new PJSIPWizardRow()
-				{
-					Id = reader.IsDBNull("id") ? null : reader.GetInt64("id"),
-					Name = reader.IsDBNull("name") ? null : reader.GetString("name"),
-					Setting = reader.IsDBNull("setting") ? null : reader.GetString("setting"),
-					Value = reader.IsDBNull("value") ? null : reader.GetString("value"),
-					Template = reader.IsDBNull("template") ? null : reader.GetBoolean("template"),
-					Comment = reader.IsDBNull("comment") ? null : reader.GetString("comment"),
-					Disabled = reader.IsDBNull("disabled") ? null : reader.GetBoolean("disabled"),
-					UsesTemplate = reader.IsDBNull("uses_template") ? null : reader.GetString("uses_template"),
-				};
+				yield return ForDataReader(reader);
+			}
+
+			yield break;
+		}
+		[GraphSkip]
+		static public IEnumerable<string?> TemplateNames(SQLiteConnection DB)
+		{
+			if (DB == null)
+				throw new Exception("DB == null");
+
+			using SQLiteCommand command = DB.CreateCommand();
+
+			string sql = @"
+				SELECT DISTINCT(name)
+				FROM ""pjsip_wizard.conf"" 
+				WHERE template=1
+				ORDER BY name ASC
+			;";
+			command.CommandText = sql;
+
+			using SQLiteDataReader reader = command.ExecuteReader();
+			while (reader.Read())
+			{
+				yield return reader.IsDBNull("name") ? null : reader.GetString("name");
 			}
 
 			yield break;

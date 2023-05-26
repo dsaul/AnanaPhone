@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Start AnanaPhone Boot"
-dotnet /app/AnanaPhone.dll --boot
+dotnet /app/AnanaPhone.dll --stage1
 
 echo "Start Call Control"
 asterisk

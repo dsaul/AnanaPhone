@@ -11,7 +11,6 @@ namespace AnanaPhone.SettingsManager
 			PJSIPWizardConfEnsureTable();
 			ARIConfEnsureTable();
 			MusicOnHoldConfEnsureTable();
-			PJSIPConfEnsureTable();
 			RTPConfEnsureTable();
 			E164ClientsEnsureTable();
 		}

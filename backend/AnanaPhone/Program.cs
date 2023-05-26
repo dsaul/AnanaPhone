@@ -32,14 +32,14 @@ namespace AnanaPhone
 				.WriteTo.Console()
 				.CreateLogger();
 
-			bool boot = false;
+			bool stage1 = false;
 
 			var options = new OptionSet {
 				{ 
-					"b|boot", "the name of someone to greet.", 
+					"1|stage1", "run stage 1", 
 					b => { 
 						if (b != null) 
-							boot = true;
+							stage1 = true;
 					} 
 				},
 			};
@@ -60,15 +60,15 @@ namespace AnanaPhone
 			}
 
 
-			if (boot)
-				Boot(args);
+			if (stage1)
+				Stage1(args);
 			else
-				Serve(args);
+				Stage2(args);
 		}
 
-		static void Boot(string[] args)
+		static void Stage1(string[] args)
 		{
-			Log.Information("[{Class}.{Method}()] AnanaPhone Boot (c) 2021 Dan Saul",
+			Log.Information("[{Class}.{Method}()] AnanaPhone Stage 1 (c) 2021 Dan Saul",
 				"Program",
 				System.Reflection.MethodBase.GetCurrentMethod()?.Name
 			);
@@ -83,7 +83,7 @@ namespace AnanaPhone
 			builder.Services.AddSingleton<BootManager>();
 
 			Application = builder.Build();
-			Application.Services.GetRequiredService<BootManager>().Run();
+			Application.Services.GetRequiredService<BootManager>().GenerateForStage1();
 		}
 
 		static void ApplicationSharedEarly(WebApplicationBuilder builder)
@@ -128,9 +128,9 @@ namespace AnanaPhone
 			});
 		}
 
-		static void Serve(string[] args)
+		static void Stage2(string[] args)
 		{
-			Log.Information("[{Class}.{Method}()] AnanaPhone (c) 2021 Dan Saul",
+			Log.Information("[{Class}.{Method}()] AnanaPhone Stage 2 (c) 2021 Dan Saul",
 				"Program",
 				System.Reflection.MethodBase.GetCurrentMethod()?.Name
 			);
