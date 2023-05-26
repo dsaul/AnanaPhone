@@ -10,6 +10,8 @@ import MDIHistory from '@/components/SVG/MDIHistory.vue';
 import MDICog from '@/components/SVG/MDICog.vue';
 import MDIVoiceMail from '@/components/SVG/MDIVoiceMail.vue';
 import MDIDialPad from '@/components/SVG/MDIDialPad.vue';
+import MDISecurity from '@/components/SVG/MDISecurity.vue';
+import MDIContacts from '@/components/SVG/MDIContacts.vue';
 import PJSIPClientSettings from '@/components/Sections/PJSIPClientSettings.vue';
 import PJSIPTrunkSettings from '@/components/Sections/PJSIPTrunkSettings.vue';
 import E164Settings from '@/components/Sections/E164Settings.vue';
@@ -57,6 +59,18 @@ const onClickDialpad = () => {
 							<MDIVoiceMail class="w-5 h-5" />
 						</div>
 					</q-tab>
+					<!-- <q-tab name="Contacts">
+						<q-tooltip anchor="bottom middle" self="top middle">Contacts</q-tooltip>
+						<div class="flex flex-row gap-2 items-center">
+							<MDIContacts class="w-5 h-5" />
+						</div>
+					</q-tab>
+					<q-tab name="Security">
+						<q-tooltip anchor="bottom middle" self="top middle">Security</q-tooltip>
+						<div class="flex flex-row gap-2 items-center">
+							<MDISecurity class="w-5 h-5" />
+						</div>
+					</q-tab> -->
 					<q-tab name="Settings">
 						<q-tooltip anchor="bottom middle" self="top middle">Settings</q-tooltip>
 						<div class="flex flex-row gap-2 items-center">
@@ -80,10 +94,13 @@ const onClickDialpad = () => {
 
 					<q-tab-panel name="VoiceMail">
 						<VoiceMailList />
-						
-						
 					</q-tab-panel>
-
+					<q-tab-panel name="Contacts">
+						Contacts
+					</q-tab-panel>
+					<q-tab-panel name="Security">
+						Security
+					</q-tab-panel>
 					<q-tab-panel name="Settings">
 						<div class="flex flex-col gap-4">
 							<E164Settings />
