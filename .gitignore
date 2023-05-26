@@ -6,6 +6,7 @@
 /docker/data-mongo
 /docker/data-vmail
 /docker/data-database
+/docker/data-dotnet-dataprotection
 /docker/secrets
 /docker/includes/holdmusic/cg.wav
 /docker/includes/holdmusic/faix.wav
