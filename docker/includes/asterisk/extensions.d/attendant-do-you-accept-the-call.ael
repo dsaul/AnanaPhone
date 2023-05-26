@@ -3,7 +3,7 @@ extend context attendant-do-you-accept-the-call {
 		// If the socket between Asterisk and ARI dies, they will be kicked out and will need to reconnect. 
 		Set(CALL_TARGET=SeekOwnerOfCallRequest);
 		while (true) {
-			AGI(agi://10.5.5.20/AttendantDoYouAcceptTheCall);
+			AGI(agi://127.0.0.1/AttendantDoYouAcceptTheCall);
 			if ("${CALL_TARGET}" = "HangUp") {
 				Hangup();
 				break;

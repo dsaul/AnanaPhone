@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DanSaul.SharedCode" Version="2023.5.2513.36" />
+    <PackageReference Include="DanSaul.SharedCode" Version="2023.5.2611.39" />
+    <PackageReference Include="Mono.Options" Version="6.12.0.148" />
+    <PackageReference Include="PasswordGenerator" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,9 +7,9 @@
 /docker/data-vmail
 /docker/data-database
 /docker/secrets
-/docker/callcontrol/asterisk/_holdmusic/cg.wav
-/docker/callcontrol/asterisk/_holdmusic/faix.wav
-/docker/callcontrol/asterisk/_holdmusic/on1.wav
+/docker/includes/holdmusic/cg.wav
+/docker/includes/holdmusic/faix.wav
+/docker/includes/holdmusic/on1.wav
 /frontend/.quasar
 /frontend/node_modules
 /frontend/yarn.lock

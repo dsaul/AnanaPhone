@@ -23,7 +23,7 @@ WORKDIR /source/AnanaPhone
 RUN dotnet restore && dotnet publish --output /app --configuration Debug
 
 # # STAGE 3 - Package
-FROM maskawanian/dotnet-aspnet-asterisk:7.0
+FROM maskawanian/dotnet-aspnet-asterisk:7.0 as final
 
 # sip
 EXPOSE 5060/udp
@@ -45,10 +45,8 @@ VOLUME /vmail
 
 COPY --from=buildBackend /app /app
 
-
-
-RUN rm -rf /etc/asterisk/ && \
-	mkdir -p /etc/asterisk/_holdmusic
+# Copy over hold music.
+COPY docker/includes/holdmusic /holdmusic
 
 # Setup SSHD
 COPY docker/includes/sshd/sshd_config /etc/ssh/sshd_config
@@ -73,6 +71,7 @@ RUN dos2unix /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWee
 	dos2unix /crontab.txt && crontab /crontab.txt
 
 # Configure Asterisk
+RUN rm -rf /etc/asterisk/
 COPY docker/includes/asterisk/ /etc/asterisk/
 RUN dos2unix /etc/asterisk/* && \
 	dos2unix /etc/asterisk/extensions.d/* && \

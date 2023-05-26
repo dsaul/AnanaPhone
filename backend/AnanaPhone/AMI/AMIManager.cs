@@ -13,8 +13,8 @@ namespace AnanaPhone.AMI
 		public ManagerConnection Connection { get; } = new ManagerConnection(
 			EnvAsterisk.ASTERISK_HOST, 
 			EnvAsterisk.ASTERISK_AMI_PORT, 
-			EnvAsterisk.ASTERISK_AMI_USER, 
-			EnvAsterisk.ASTERISK_AMI_PASS
+			EnvAsterisk.ASTERISK_AMI_USER,
+			Env.AMI_PW
 		);
 
 		public AMIManager()
@@ -34,6 +34,12 @@ namespace AnanaPhone.AMI
 		{
 			try
 			{
+				Log.Debug("ASTERISK_HOST = {ASTERISK_HOST}", EnvAsterisk.ASTERISK_HOST);
+				Log.Debug("ASTERISK_AMI_PORT = {ASTERISK_AMI_PORT}", EnvAsterisk.ASTERISK_AMI_PORT);
+				Log.Debug("ASTERISK_AMI_USER = {ASTERISK_AMI_USER}", EnvAsterisk.ASTERISK_AMI_USER);
+				Log.Debug("ASTERISK_AMI_PASS = {ASTERISK_AMI_PASS}", EnvAsterisk.ASTERISK_AMI_PASS);
+
+
 				Connection.DefaultResponseTimeout = 0;
 				Connection.DefaultEventTimeout = 0;
 				//Connection.FireAllEvents = true;

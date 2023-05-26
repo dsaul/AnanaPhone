@@ -11,7 +11,7 @@ namespace AnanaPhone.VoiceMail
 {
 	public class VoiceMailManager : IDisposable
 	{
-		AmazonS3Client S3Client;
+		AmazonS3Client S3Client { get; init; }
 
 		public VoiceMailManager(AmazonS3Client _S3Client)
         {

@@ -1,18 +1,20 @@
 using Amazon.S3;
 using AnanaPhone.AMI;
 using AnanaPhone.ARI;
+using AnanaPhone.Boot;
 using AnanaPhone.Calls;
 using AnanaPhone.Conferences;
 using AnanaPhone.VoiceMail;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 using GraphQL.AspNet.Configuration;
+using Mono.Options;
 using Sander0542.Authentication.Authelia;
 using Serilog;
 using Serilog.Events;
 
 namespace AnanaPhone
 {
-	public class Program
+	public static class Program
 	{
 		public static WebApplication? Application { get; private set; }
 
@@ -30,38 +32,70 @@ namespace AnanaPhone
 				.WriteTo.Console()
 				.CreateLogger();
 
+			bool boot = false;
 
-			Log.Information("[{Class}.{Method}()] AnanaPhone (c) 2021 Dan Saul",
-					"Program",
-					System.Reflection.MethodBase.GetCurrentMethod()?.Name
-				);
+			var options = new OptionSet {
+				{ 
+					"b|boot", "the name of someone to greet.", 
+					b => { 
+						if (b != null) 
+							boot = true;
+					} 
+				},
+			};
 
-			var builder = WebApplication.CreateBuilder(args);
-
-			//builder.Host.UseSerilog((HostBuilderContext ctx, LoggerConfiguration lc) =>
-			//{
-			//	lc.WriteTo.Console();
-			//});
-
-			// Add services to the container.
-
-			var devCorsOrigin = "dev";
-			builder.Services.AddCors(options =>
+			List<string> extra;
+			try
 			{
-				options.AddPolicy(name: devCorsOrigin, policy => 
-					policy
-						.AllowAnyOrigin()
-						.AllowAnyHeader()
-						.AllowAnyMethod()
+				extra = options.Parse(args);
+			}
+			catch (Exception e)
+			{
+				Log.Fatal(e, "[{Class}.{Method}()] {Message}",
+					"Program",
+					System.Reflection.MethodBase.GetCurrentMethod()?.Name,
+					e.Message
 				);
+				return;
+			}
+
+
+			if (boot)
+				Boot(args);
+			else
+				Serve(args);
+		}
+
+		static void Boot(string[] args)
+		{
+			Log.Information("[{Class}.{Method}()] AnanaPhone Boot (c) 2021 Dan Saul",
+				"Program",
+				System.Reflection.MethodBase.GetCurrentMethod()?.Name
+			);
+
+			// Basic WebApplication
+
+			WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+			ApplicationSharedEarly(builder);
+			ApplicationSharedSingletons(builder);
+
+			
+			builder.Services.AddSingleton<BootManager>();
+
+			Application = builder.Build();
+			Application.Services.GetRequiredService<BootManager>().Run();
+		}
+
+		static void ApplicationSharedEarly(WebApplicationBuilder builder)
+		{
+			builder.Host.UseSerilog((HostBuilderContext ctx, LoggerConfiguration lc) =>
+			{
+				lc.WriteTo.Console();
 			});
+		}
 
-
-			builder.Services.AddAuthentication(AutheliaDefaults.AuthenticationScheme).AddAuthelia();
-			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+		static void ApplicationSharedSingletons(WebApplicationBuilder builder)
+		{
 			builder.Services.AddSingleton<ARIManager>();
 			builder.Services.AddSingleton<ActiveCallManager>();
 			builder.Services.AddSingleton<AMIManager>();
@@ -92,8 +126,49 @@ namespace AnanaPhone
 					config
 				);
 			});
+		}
+
+		static void Serve(string[] args)
+		{
+			Log.Information("[{Class}.{Method}()] AnanaPhone (c) 2021 Dan Saul",
+				"Program",
+				System.Reflection.MethodBase.GetCurrentMethod()?.Name
+			);
 
 
+			Log.Information("[{Class}.{Method}()] AMI_PW {AMI_PW}",
+				"Program",
+				System.Reflection.MethodBase.GetCurrentMethod()?.Name,
+				Env.AMI_PW
+			);
+
+			
+
+			WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+			ApplicationSharedEarly(builder);
+			
+
+			// Add services to the container.
+
+			var devCorsOrigin = "dev";
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy(name: devCorsOrigin, policy =>
+					policy
+						.AllowAnyOrigin()
+						.AllowAnyHeader()
+						.AllowAnyMethod()
+				);
+			});
+
+
+			builder.Services.AddAuthentication(AutheliaDefaults.AuthenticationScheme).AddAuthelia();
+			builder.Services.AddControllers();
+			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+			builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddSwaggerGen();
+			ApplicationSharedSingletons(builder);
+			
 			builder.Services.AddGraphQL();
 
 			Application = builder.Build();
@@ -114,22 +189,22 @@ namespace AnanaPhone
 
 			Application.UseHttpsRedirection();
 
-			
+
 			Application.UseDefaultFiles(); // Must be before UseStaticFiles
 			Application.UseStaticFiles();
-			//Application.MapFallbackToFile("/index.html");
+			Application.MapFallbackToFile("/index.html");
 			Application.UseRouting();
 			Application.MapControllers();
 			Application.UseGraphQL();
 
-			
+
 
 			Application.UseAuthentication();
 			Application.UseAuthorization();
 
-			
 
-			
+
+
 
 			// Pass Selected Environment Variables Through to Frontend
 			//Application.MapGet("/env/VITE_MQTT_HOST", async context => {
@@ -145,7 +220,7 @@ namespace AnanaPhone
 			_ = Application.Services.GetRequiredService<ARIManager>();
 			_ = Application.Services.GetRequiredService<AMIManager>();
 			_ = Application.Services.GetRequiredService<ConfBridgeManager>();
-			
+
 			Application.Run();
 		}
 	}

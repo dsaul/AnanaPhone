@@ -1,8 +1,41 @@
-﻿namespace AnanaPhone
+﻿using DanSaul.SharedCode.StandardizedEnvironmentVariables;
+using System.IO;
+
+namespace AnanaPhone
 {
 	public static class Env
 	{
 		
+
+
+
+
+		static string? _AMI_PW;
+		public static string AMI_PW
+		{
+			get
+			{
+				if (EnvAsterisk.ASTERISK_DEBUG_SSH_ENABLE)
+				{
+					string? payload = Environment.GetEnvironmentVariable("AMI_PW");
+					if (string.IsNullOrWhiteSpace(payload))
+						throw new InvalidOperationException("AMI_PW empty or missing.");
+					return payload;
+				}
+				else
+				{
+					if (!string.IsNullOrWhiteSpace(_AMI_PW))
+						return _AMI_PW;
+
+					string path = "/tmp/AMI_PW";
+					if (!File.Exists(path))
+						throw new InvalidOperationException("AMI_PW empty or missing.");
+					_AMI_PW = File.ReadAllText(path);
+					File.Delete(path);
+					return _AMI_PW;
+				}
+			}
+		}
 
 		public static string SND_EXTERNAL_INTRO
 		{

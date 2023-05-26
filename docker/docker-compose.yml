@@ -5,6 +5,7 @@ services:
       context: ../
       dockerfile: ./docker/dockerfile.txt
     container_name: ananaphone
+    image: maskawanian/ananaphone:latest
     restart: always
     volumes:
       - ./secrets:/secrets
@@ -33,6 +34,7 @@ services:
      - ASTERISK_DEBUG_SSH_PORT_FILE=/secrets/ASTERISK_DEBUG_SSH_PORT.txt
      - ASTERISK_DEBUG_SSH_USER_FILE=/secrets/ASTERISK_DEBUG_SSH_USER.txt
      - ASTERISK_DEBUG_SSH_ENABLE=false
+     - ASTERISK_EXTERNAL_IP_ADDRESS_FILE=/secrets/ASTERISK_EXTERNAL_IP_ADDRESS.txt
     networks:
      - ananaphone
   ananaphone-minio:
