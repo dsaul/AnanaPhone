@@ -50,7 +50,7 @@ namespace AnanaPhone.Boot
 							new Entry()
 							{
 								Key = "bind",
-								Value = "0.0.0.0:5060",
+								Value = $"0.0.0.0:{EnvAsterisk.ASTERISK_SIP_PORT}",
 							},
 							new Entry()
 							{
@@ -97,7 +97,7 @@ namespace AnanaPhone.Boot
 							new Entry()
 							{
 								Key = "bind",
-								Value = "0.0.0.0:5060",
+								Value = $"0.0.0.0:{EnvAsterisk.ASTERISK_SIP_PORT}",
 							},
 							new Entry()
 							{

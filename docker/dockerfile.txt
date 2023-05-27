@@ -83,9 +83,7 @@ RUN dos2unix /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWee
 RUN rm -rf /etc/asterisk/
 COPY docker/includes/asterisk/ /etc/asterisk/
 RUN dos2unix /etc/asterisk/* && \
-	dos2unix /etc/asterisk/extensions.d/* && \
-	dos2unix /etc/asterisk/manager.d/* && \
-	dos2unix /etc/asterisk/pjsip_wizard.d/*
+	dos2unix /etc/asterisk/extensions.d/*
 
 
 

@@ -122,21 +122,6 @@ namespace AnanaPhone.Boot
 							},
 							new Entry()
 							{
-								Key = "maxcalls",
-								Value = "10",
-							},
-							new Entry()
-							{
-								Key = "maxload",
-								Value = "0.9",
-							},
-							new Entry()
-							{
-								Key = "minmemfree",
-								Value = "1",
-							},
-							new Entry()
-							{
 								Key = "defaultlanguage",
 								Value = "en",
 							},
