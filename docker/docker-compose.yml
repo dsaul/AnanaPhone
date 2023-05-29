@@ -12,15 +12,9 @@ services:
       - ./secrets:/secrets
       - ./data-vmail:/vmail
       - ./data-database:/database
-    ports:
-     - '5201:5201/udp' # sip
-     - '5201:5201/tcp' # sip
-     - '5100-5200:5100-5200/udp' # rtp
-     - '5100-5200:5100-5200/tcp' # rtp
-     - '5203:80' # http
-     # Below should only be enabled for development
-     #- '5038:5038/tcp' # ami
-     #- '5039:5039/tcp' # sshd
+      - ./data-holdmusic:/holdmusic
+      - ./data-recordings:/recordings
+    network_mode: host
     environment:
      - TZ=America/Winnipeg
      - ASPNETCORE_ENVIRONMENT=Development
@@ -48,14 +42,13 @@ services:
      - ASTERISK_AGI_HOST_FILE=/secrets/ASTERISK_AGI_HOST.txt
      #- ASTERISK_AGI_HOST_FILE=/secrets/ASTERISK_AGI_HOST_DEBUG.txt # debug
      - GENERATE_ASTERISK_CONFIG=true
-    networks:
-     - ananaphone
+     - SEEK_OWNER_FROM_E164=
   ananaphone-minio:
     image: minio/minio
     container_name: ananaphone-minio
     ports:
-     - "15003:15003" # access
-     - "15004:15004" # console
+     - "5205:5205" # access
+     - "5204:5204" # console
     volumes:
      - ./data-minio:/data
      - ./secrets:/secrets
@@ -64,9 +57,4 @@ services:
      # https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#configuration-settings
      - MINIO_CONFIG_ENV_FILE=/secrets/MINIO_CONFIG_ENV_FILE.txt
     restart: always
-    command: server --address ":15003" --console-address ":15004" /data
-    networks:
-      - ananaphone
-networks:
-  ananaphone:
-    name: ananaphone
+    command: server --address ":5205" --console-address ":5204" /data

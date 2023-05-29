@@ -106,7 +106,7 @@ namespace AnanaPhone.VoiceMail
 			DeleteObjectRequest request = new()
 			{
 				BucketName = Env.VMAIL_S3_BUCKET,
-				Key = $"{id}/message.wav"
+				Key = $"{id}/recording.wav"
 			};
 			S3Client.DeleteObjectAsync(request).Wait();
 		}

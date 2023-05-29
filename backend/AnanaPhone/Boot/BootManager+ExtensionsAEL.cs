@@ -23,6 +23,17 @@ namespace AnanaPhone.Boot
 
 			AsteriskAELFile file = new();
 
+			// Create all of the outbound contexts one per number.
+			IEnumerable<E164Row> e164s = SM.E164sGetAll();
+			foreach (E164Row e164 in e164s)
+			{
+				Outbound? context = Outbound.ForE164(e164);
+				if (context == null)
+					continue;
+
+				file.Contexts.Add(context);
+			}
+
 			// Get all the contexts in the main assembly that have been marked by attribute to be included.
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Type[] types = assembly.GetTypes();
@@ -35,15 +46,7 @@ namespace AnanaPhone.Boot
 				file.Contexts.Add(instance);
 			}
 
-			IEnumerable<E164Row> e164s = SM.E164sGetAll();
-			foreach (E164Row e164 in e164s)
-			{
-				Outbound? context = Outbound.ForE164(e164);
-				if (context == null)
-					continue;
-
-				file.Contexts.Add(context);
-			}
+			
 
 
 

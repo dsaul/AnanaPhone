@@ -44,7 +44,7 @@ namespace AnanaPhone.SettingsManager
 			return Remove(DB, E164);
 		}
 		[GraphSkip]
-		public int Remove(SQLiteConnection DB, string e164)
+		public static int Remove(SQLiteConnection DB, string e164)
 		{
 			if (DB == null)
 				throw new Exception("DB == null");
@@ -79,7 +79,7 @@ namespace AnanaPhone.SettingsManager
 			return Upsert(DB, this);
 		}
 		[GraphSkip]
-		public int Upsert(SQLiteConnection DB, E164Row number)
+		public static int Upsert(SQLiteConnection DB, E164Row number)
 		{
 			if (DB == null)
 				throw new Exception("DB == null");
@@ -146,7 +146,7 @@ namespace AnanaPhone.SettingsManager
 		}
 
 		[GraphSkip]
-		public IEnumerable<E164Row> GetAll(SQLiteConnection DB)
+		public static IEnumerable<E164Row> GetAll(SQLiteConnection DB)
 		{
 			if (DB == null)
 				throw new Exception("DB == null");
@@ -204,10 +204,34 @@ namespace AnanaPhone.SettingsManager
 			yield break;
 		}
 
+		[GraphSkip]
+		public string? OutboundDeviceTechnology
+		{
+			get
+			{
+				if (string.IsNullOrWhiteSpace(OutboundDevice))
+					return null;
+				string[] parts = OutboundDevice.Split('/');
+				if (parts.Length != 2)
+					return null;
+				return parts[0];
+			}
+		}
 
 
-
-
+		[GraphSkip]
+		public string? OutboundDeviceName
+		{
+			get
+			{
+				if (string.IsNullOrWhiteSpace(OutboundDevice))
+					return null;
+				string[] parts = OutboundDevice.Split('/');
+				if (parts.Length != 2)
+					return null;
+				return parts[1];
+			}
+		}
 
 
 

@@ -40,7 +40,7 @@ namespace ASPNetServer
 			VoiceMailMessageRow first = messages.First();
 
 			string bucket = Env.VMAIL_S3_BUCKET;
-			string key = $"{first.Id}/message.wav";
+			string key = $"{first.Id}/recording.wav";
 
 			Log.Information("[{Class}.{Method}()] S3 Fetch bucket:{bucket} key:{key}",
 				GetType().Name,

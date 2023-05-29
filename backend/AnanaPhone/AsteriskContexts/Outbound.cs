@@ -80,8 +80,8 @@ namespace AnanaPhone.AsteriskContexts
 			Extensions.Add(
 				new ExtensionBlock("_+1NXXNXXXXXX")
 					.Add(new VerboseStatement("Dialed ${EXTEN}"))
-					.Add(new NoOpStatement(@"Outbound Caller id name ${CALLERID(name)}"))
-					.Add(new NoOpStatement(@"Outbound Caller id number ${CALLERID(num)}"))
+					.Add(new SetStatement("CALLERID(name)", e164.Name ?? "Unknown"))
+					.Add(new SetStatement("CALLERID(number)", e164.E164))
 					.Add(
 					  new MixMonitorStatement(EnvAsterisk.ASTERISK_RECORDINGS_DIRECTORY + @"/${EXTEN}/Outbound-${STRFTIME(${EPOCH},,%Y-%m-%d %H-%M-%S)}.wav")
 					)
@@ -89,9 +89,9 @@ namespace AnanaPhone.AsteriskContexts
 					{
 						new DialEndpoint()
 						{
-							Technology = "PJSIP",
+							Technology = e164.OutboundDeviceTechnology,
 							Extension = "${EXTEN}",
-							Device = "trunk-ob-twilio",
+							Device = e164.OutboundDeviceName,
 						}
 					})
 					{

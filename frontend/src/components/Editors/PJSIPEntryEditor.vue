@@ -227,7 +227,7 @@ const onClickSaveChanges = () => {
 							<div class="flex flex-col h-full gap-1">
 								<q-input clearable dense v-model="endpointContext" label="Context" :disable="isAnyLoading" />
 								<div class="text-xs text-grey-8">
-									Dialplan context for inbound sessions. <a class="text-blue underline"
+									Dialplan context for sessions started here. <a class="text-blue underline"
 										href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+20+Configuration_res_pjsip"
 										target="_blank">See asterisk.org reference.</a>
 								</div>

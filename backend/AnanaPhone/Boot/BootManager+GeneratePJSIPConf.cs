@@ -66,7 +66,7 @@ namespace AnanaPhone.Boot
 							new Entry()
 							{
 								Key = "allow_reload",
-								Value = "no",
+								Value = "yes",
 							},
 							new Entry()
 							{
@@ -77,6 +77,11 @@ namespace AnanaPhone.Boot
 							{
 								Key = "cos",
 								Value = "4",
+							},
+							new Entry()
+							{
+								Key = "local_net",
+								Value = "10.0.0.0/8,127.0.0.0/8,172.16.0.0/12,192.168.0.0/24",
 							},
 						},
 					},
@@ -124,6 +129,11 @@ namespace AnanaPhone.Boot
 							{
 								Key = "cos",
 								Value = "4",
+							},
+							new Entry()
+							{
+								Key = "local_net",
+								Value = "10.0.0.0/8,127.0.0.0/8,172.16.0.0/12,192.168.0.0/24",
 							},
 						},
 					}

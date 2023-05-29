@@ -249,6 +249,16 @@ namespace AnanaPhone
 				return payload;
 			}
 		}
+		public static string SEEK_OWNER_FROM_E164
+		{
+			get
+			{
+				string? payload = Environment.GetEnvironmentVariable("SEEK_OWNER_FROM_E164");
+				if (string.IsNullOrWhiteSpace(payload))
+					throw new InvalidOperationException("SEEK_OWNER_FROM_E164 empty or missing.");
+				return payload;
+			}
+		}
 		public static string CONTEXT_ADMIN_DIRECT_TO_CONFERENCE
 		{
 			get

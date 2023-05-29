@@ -5,7 +5,6 @@ using AnanaPhone.AsteriskContexts;
 using AnanaPhone.Boot;
 using AnanaPhone.Calls;
 using AnanaPhone.Conferences;
-using AnanaPhone.GraphQL;
 using AnanaPhone.VoiceMail;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 using GraphQL.AspNet.Configuration;
@@ -13,9 +12,6 @@ using Mono.Options;
 using Sander0542.Authentication.Authelia;
 using Serilog;
 using Serilog.Events;
-using System.Linq;
-using GraphQL.AspNet.Interfaces.Schema;
-using GraphQL.AspNet.ServerExtensions.MultipartRequests;
 
 namespace AnanaPhone
 {
@@ -174,7 +170,7 @@ namespace AnanaPhone
 				);
 			});
 
-
+			builder.WebHost.UseUrls("http://*:5203/");
 			builder.Services.AddAuthentication(AutheliaDefaults.AuthenticationScheme).AddAuthelia();
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

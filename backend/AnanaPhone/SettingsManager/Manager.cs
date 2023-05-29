@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using AnanaPhone.AsteriskContexts;
+using Serilog;
 using System.Data.SQLite;
 
 namespace AnanaPhone.SettingsManager
@@ -45,46 +46,28 @@ namespace AnanaPhone.SettingsManager
 
 		public IEnumerable<string> GetClientChannels()
 		{
+
+
+
+			string callOutE164 = Env.SEEK_OWNER_FROM_E164;
+			E164Row? row = E164sGetForE164(callOutE164).FirstOrDefault();
+			if (row == null)
+				throw new InvalidOperationException("row == null");
+
+			Outbound? obCtx = Outbound.ForE164(row);
+			if (obCtx == null)
+				throw new InvalidOperationException("obCtx == null");
+
+
+
+
 			IEnumerable<E164ClientRow> e164Clients = E164ClientsGetAll();
 			foreach (E164ClientRow client in e164Clients)
 			{
 				if (string.IsNullOrWhiteSpace(client.E164))
 					continue;
-				if (string.IsNullOrWhiteSpace(client.OutboundDevice))
-				{
-					Log.Warning("[{Class}.{Method}()] Number Client {e164} is missing outbound device.",
-						GetType().Name,
-						System.Reflection.MethodBase.GetCurrentMethod()?.Name,
-						client.E164
-					);
-					continue;
-				}
-				if (!client.OutboundDevice.Contains('/'))
-				{
-					Log.Warning("[{Class}.{Method}()] Number Client {e164} is not formatted correctly #1 {outboundDevice}.",
-						GetType().Name,
-						System.Reflection.MethodBase.GetCurrentMethod()?.Name,
-						client.E164,
-						client.OutboundDevice
-					);
-					continue;
-				}
-				string[] parts = client.OutboundDevice.Split('/');
-				if (parts.Length != 2)
-				{
-					Log.Warning("[{Class}.{Method}()] Number Client {e164} is not formatted correctly #2 {outboundDevice}.",
-						GetType().Name,
-						System.Reflection.MethodBase.GetCurrentMethod()?.Name,
-						client.E164,
-						client.OutboundDevice
-					);
-					continue;
-				}
-
-				string tech = parts[0];
-				string name = parts[1];
-
-				yield return $"{tech}/{client.E164.Trim()}@{name}";
+				
+				yield return $"Local/{client.E164.Trim()}@{obCtx.ContextName}";
 			}
 
 			IEnumerable<string?> pjsipClients = PJSIPWizardConfGetNamesForClientDefaults();
