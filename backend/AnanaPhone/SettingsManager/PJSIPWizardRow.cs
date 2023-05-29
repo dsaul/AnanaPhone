@@ -36,6 +36,8 @@ namespace AnanaPhone.SettingsManager
 		public const string kSettingKeyHintContext = "hint_context";
 		public const string kSettingKeyInboundAuthUsername = "inbound_auth/username";
 		public const string kSettingKeyInboundAuthPassword = "inbound_auth/password";
+		public const string kSettingKeyOutboundAuthUsername = "outbound_auth/username";
+		public const string kSettingKeyOutboundAuthPassword = "outbound_auth/password";
 		public const string kSettingKeyEndpointCallerid = "endpoint/callerid";
 		public const string kSettingKeyAorMaxContacts = "aor/max_contacts";
 		public const string kSettingKeyRemoteHosts = "remote_hosts";

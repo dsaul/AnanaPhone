@@ -1414,5 +1414,84 @@ namespace AnanaPhone.SettingsManager
 			}
 		}
 
+
+
+		public string? OutboundAuthUsername
+		{
+			get
+			{
+				var e = from row in Rows
+						where row.Setting == PJSIPWizardRow.kSettingKeyOutboundAuthUsername
+						select row.Value;
+
+				return e.FirstOrDefault();
+			}
+			set
+			{
+				if (SM == null)
+					throw new Exception("SM == null");
+
+				var e = from r in Rows
+						where r.Setting == PJSIPWizardRow.kSettingKeyOutboundAuthUsername
+						select r;
+				PJSIPWizardRow? row = e.FirstOrDefault();
+
+				if (value == null)
+				{
+					if (row != null)
+						Rows.Remove(row);
+					return;
+				}
+
+
+				row ??= new()
+				{
+					Setting = PJSIPWizardRow.kSettingKeyOutboundAuthUsername,
+				};
+
+				row.Value = value;
+
+
+			}
+		}
+		public string? OutboundAuthPassword
+		{
+			get
+			{
+				var e = from row in Rows
+						where row.Setting == PJSIPWizardRow.kSettingKeyOutboundAuthPassword
+						select row.Value;
+
+				return e.FirstOrDefault();
+			}
+			set
+			{
+				if (SM == null)
+					throw new Exception("SM == null");
+
+				var e = from r in Rows
+						where r.Setting == PJSIPWizardRow.kSettingKeyOutboundAuthPassword
+						select r;
+				PJSIPWizardRow? row = e.FirstOrDefault();
+
+				if (value == null)
+				{
+					if (row != null)
+						Rows.Remove(row);
+					return;
+				}
+
+
+				row ??= new()
+				{
+					Setting = PJSIPWizardRow.kSettingKeyOutboundAuthPassword,
+				};
+
+				row.Value = value;
+
+
+			}
+		}
+
 	}
 }

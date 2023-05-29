@@ -5,6 +5,8 @@ interface IPJSIPEntry {
 	hintContext?: string | null;
 	inboundAuthUsername?: string | null;
 	inboundAuthPassword?: string | null;
+	outboundAuthUsername?: string | null;
+	outboundAuthPassword?: string | null;
 	endpointCallerid?: string | null;
 	aorMaxContacts?: number;
 	remoteHosts?: string[];

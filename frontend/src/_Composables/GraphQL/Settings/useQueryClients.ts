@@ -24,6 +24,8 @@ const useQueryClients = () => {
 					hintContext,
 					inboundAuthUsername,
 					inboundAuthPassword,
+					outboundAuthUsername,
+					outboundAuthPassword,
 					endpointCallerid,
 					aorMaxContacts,
 					remoteHosts,

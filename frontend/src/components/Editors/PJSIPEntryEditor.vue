@@ -11,6 +11,8 @@ import { useHintExten } from '@/_Composables/GraphQL/PJSIPEntry/useHintExten';
 import { useHintContext } from '@/_Composables/GraphQL/PJSIPEntry/useHintContext';
 import { useInboundAuthUsername } from '@/_Composables/GraphQL/PJSIPEntry/useInboundAuthUsername';
 import { useInboundAuthPassword } from '@/_Composables/GraphQL/PJSIPEntry/useInboundAuthPassword';
+import { useOutboundAuthUsername } from '@/_Composables/GraphQL/PJSIPEntry/useOutboundAuthUsername';
+import { useOutboundAuthPassword } from '@/_Composables/GraphQL/PJSIPEntry/useOutboundAuthPassword';
 import { useEndpointCallerid } from '@/_Composables/GraphQL/PJSIPEntry/useEndpointCallerid';
 import { useAorMaxContacts } from '@/_Composables/GraphQL/PJSIPEntry/useAorMaxContacts';
 import { useRemoteHosts } from '@/_Composables/GraphQL/PJSIPEntry/useRemoteHosts';
@@ -72,6 +74,8 @@ const hintExten = useHintExten(editModel);
 const hintContext = useHintContext(editModel);
 const inboundAuthUsername = useInboundAuthUsername(editModel);
 const inboundAuthPassword = useInboundAuthPassword(editModel);
+const outboundAuthUsername = useOutboundAuthUsername(editModel);
+const outboundAuthPassword = useOutboundAuthPassword(editModel);
 const endpointCallerid = useEndpointCallerid(editModel);
 const aorMaxContacts = useAorMaxContacts(editModel);
 const remoteHosts = useRemoteHosts(editModel);
@@ -360,6 +364,12 @@ const onClickSaveChanges = () => {
 							</div>
 							<div class="text-xs text-grey-8">
 								<q-input clearable dense v-model="inboundAuthPassword" label="Inbound Auth Password" :disable="isAnyLoading" />
+							</div>
+							<div class="flex flex-col h-full gap-1">
+								<q-input clearable dense v-model="outboundAuthUsername" label="Outbound Auth Username" :disable="isAnyLoading" />
+							</div>
+							<div class="text-xs text-grey-8">
+								<q-input clearable dense v-model="outboundAuthPassword" label="Outbound Auth Password" :disable="isAnyLoading" />
 							</div>
 						</div>
 					</div>
