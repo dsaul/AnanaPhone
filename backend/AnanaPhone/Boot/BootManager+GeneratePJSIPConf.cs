@@ -6,7 +6,8 @@ namespace AnanaPhone.Boot
 {
 	public partial class BootManager : IDisposable
 	{
-		[ConfGenerator]
+		
+        [ConfGenerator]
 		public void GeneratePJSIPConf()
 		{
 			// acl.conf
@@ -55,12 +56,12 @@ namespace AnanaPhone.Boot
 							new Entry()
 							{
 								Key = "external_media_address",
-								Value = EnvAsterisk.ASTERISK_EXTERNAL_IP_ADDRESS,
+								Value = NotStun?.CurrentWANIP?.ToString(),
 							},
 							new Entry()
 							{
 								Key = "external_signaling_address",
-								Value = EnvAsterisk.ASTERISK_EXTERNAL_IP_ADDRESS,
+								Value = NotStun?.CurrentWANIP?.ToString(),
 							},
 							new Entry()
 							{
@@ -102,12 +103,12 @@ namespace AnanaPhone.Boot
 							new Entry()
 							{
 								Key = "external_media_address",
-								Value = EnvAsterisk.ASTERISK_EXTERNAL_IP_ADDRESS,
+								Value = NotStun?.CurrentWANIP?.ToString(),
 							},
 							new Entry()
 							{
 								Key = "external_signaling_address",
-								Value = EnvAsterisk.ASTERISK_EXTERNAL_IP_ADDRESS,
+								Value = NotStun?.CurrentWANIP?.ToString(),
 							},
 							new Entry()
 							{

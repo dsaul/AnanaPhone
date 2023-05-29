@@ -80,19 +80,23 @@ namespace AnanaPhone
 			ApplicationSharedSingletons(builder);
 
 			Application = builder.Build();
+
+			_ = Application.Services.GetRequiredService<NotSTUN.Manager>();
+
 			Application.Services.GetRequiredService<BootManager>().GenerateForStage1();
 		}
 
 		static void ApplicationSharedEarly(WebApplicationBuilder builder)
 		{
-			builder.Host.UseSerilog((HostBuilderContext ctx, LoggerConfiguration lc) =>
-			{
-				lc.WriteTo.Console();
-			});
+			//builder.Host.UseSerilog((HostBuilderContext ctx, LoggerConfiguration lc) =>
+			//{
+			//	lc.WriteTo.Console();
+			//});
 		}
 
 		static void ApplicationSharedSingletons(WebApplicationBuilder builder)
 		{
+			builder.Services.AddSingleton<NotSTUN.Manager>();
 			builder.Services.AddSingleton<ARIManager>();
 			builder.Services.AddSingleton<ActiveCallManager>();
 			builder.Services.AddSingleton<AMIManager>();
@@ -128,7 +132,6 @@ namespace AnanaPhone
 			builder.Services.AddSingleton<ConfBridgeAdmin>();
 			builder.Services.AddSingleton<ConfBridgeExternal>();
 			builder.Services.AddSingleton<Inbound>();
-			builder.Services.AddSingleton<Outbound>();
 			builder.Services.AddSingleton<AsteriskContexts.Extensions>();
 			builder.Services.AddSingleton<FAC>();
 			builder.Services.AddSingleton<AsteriskContexts.Conference>();
@@ -136,7 +139,6 @@ namespace AnanaPhone
 			builder.Services.AddSingleton<AttendantDoYouAcceptTheCall>();
 			builder.Services.AddSingleton<AttendantTrackedAdminDirectToConference>();
 			builder.Services.AddSingleton<AttendantTrackedExternalDirectToConference>();
-			builder.Services.AddSingleton<OutboundMonitor>();
 		}
 
 		static void Stage2(string[] args)
@@ -195,7 +197,7 @@ namespace AnanaPhone
 				Application.UseCors(devCorsOrigin);
 
 			}
-			Application.UseHttpLogging();
+			//Application.UseHttpLogging();
 			//Application.UseSerilogRequestLogging();
 
 			// Configure the HTTP request pipeline.
@@ -240,7 +242,8 @@ namespace AnanaPhone
 			_ = Application.Services.GetRequiredService<ARIManager>();
 			_ = Application.Services.GetRequiredService<AMIManager>();
 			_ = Application.Services.GetRequiredService<ConfBridgeManager>();
-
+			_ = Application.Services.GetRequiredService<NotSTUN.Manager>();
+			
 			Application.Run();
 		}
 	}

@@ -14,6 +14,7 @@ namespace AnanaPhone.Boot
 		public class RuntimeReloadableAttribute : Attribute { }
 
 		SettingsManager.Manager SM { get; init; }
+		NotSTUN.Manager? NotStun { get; init; }
 
 		private string _PasswordForToday = new Password(
 					includeLowercase: true,
@@ -37,9 +38,13 @@ namespace AnanaPhone.Boot
 			}
 		}
 
-		public BootManager(SettingsManager.Manager _SM)
+		public BootManager(
+			SettingsManager.Manager _SM,
+			NotSTUN.Manager? _NotStun
+			)
         {
 			SM = _SM;
+			NotStun = _NotStun;
 		}
 
 		public void GenerateForStage1()

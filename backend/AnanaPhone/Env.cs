@@ -1,11 +1,11 @@
 ﻿using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 using System.IO;
+using System.Net;
 
 namespace AnanaPhone
 {
 	public static class Env
 	{
-
 		public static string VITE_API_ROOT
 		{
 			get

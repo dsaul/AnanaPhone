@@ -42,31 +42,6 @@ namespace AnanaPhone.Boot
 								Value = "0.0.0.0",
 								Comment = "Must be 0.0.0.0 in the docker container.",
 							},
-							new Entry()
-							{
-								Key = "deny",
-								Value = "0.0.0.0/0",
-							},
-							new Entry()
-							{
-								Key = "permit",
-								Value = "10.0.0.0/8",
-							},
-							new Entry()
-							{
-								Key = "permit",
-								Value = "172.16.0.0/12",
-							},
-							new Entry()
-							{
-								Key = "permit",
-								Value = "192.168.0.0/24",
-							},
-							new Entry()
-							{
-								Key = "permit",
-								Value = "127.0.0.0/8",
-							},
 						},
 					},
 					new Section()

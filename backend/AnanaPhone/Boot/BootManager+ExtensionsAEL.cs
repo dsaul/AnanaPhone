@@ -1,10 +1,8 @@
 ﻿using AnanaPhone.AsteriskContexts;
+using AnanaPhone.SettingsManager;
 using DanSaul.SharedCode.Asterisk.AsteriskAEL;
-using DanSaul.SharedCode.Asterisk.AsteriskINI;
-using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 using Serilog;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace AnanaPhone.Boot
 {
@@ -37,7 +35,18 @@ namespace AnanaPhone.Boot
 				file.Contexts.Add(instance);
 			}
 
-			// MixMonitor("/etc/asterisk/_monitors/${EXTEN}/Outbound-${STRFTIME(${EPOCH},,%Y-%m-%d %H-%M-%S)}.wav",b);
+			IEnumerable<E164Row> e164s = SM.E164sGetAll();
+			foreach (E164Row e164 in e164s)
+			{
+				Outbound? context = Outbound.ForE164(e164);
+				if (context == null)
+					continue;
+
+				file.Contexts.Add(context);
+			}
+
+
+
 
 			if (Env.GENERATE_ASTERISK_CONFIG)
 			{
