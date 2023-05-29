@@ -26,6 +26,12 @@ const useMutationUpsert = () => {
 	});
 	
 	const fn = (payload: IPJSIPEntry, name: string, templateName: string | null, isTemplate: boolean) => {
+		
+		payload = { ...payload };
+		
+		
+		console.log('payload', payload);
+		
 		mutate({
 			payload: payload,
 			name: name,

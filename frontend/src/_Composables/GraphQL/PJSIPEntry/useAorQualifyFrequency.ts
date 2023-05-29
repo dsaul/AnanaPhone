@@ -4,11 +4,16 @@ import type { IPJSIPEntry } from './IPJSIPEntry';
 const useAorQualifyFrequency = (model: Ref<IPJSIPEntry | null>) => {
 	return computed({
 		get() {
-			return model.value?.aorQualifyFrequency === undefined ? null : model.value?.aorQualifyFrequency;
+			const parsed = parseInt(`${model.value?.aorQualifyFrequency || ''}`, 10);
+			if (isNaN(parsed)) {
+				return null;
+			}
+			return parsed;
 		},
 		set(payload) {
+			const parsed = parseInt(`${payload || ''}`, 10);
 			const mod = model.value || {};
-			mod.aorQualifyFrequency = (payload === null || payload === undefined) ? undefined : payload;
+			mod.aorQualifyFrequency = isNaN(parsed) ? null : parsed;
 			model.value = mod;
 		}
 	});

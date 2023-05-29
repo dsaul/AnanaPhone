@@ -5,6 +5,7 @@ using AnanaPhone.AsteriskContexts;
 using AnanaPhone.Boot;
 using AnanaPhone.Calls;
 using AnanaPhone.Conferences;
+using AnanaPhone.GraphQL;
 using AnanaPhone.VoiceMail;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 using GraphQL.AspNet.Configuration;
@@ -12,6 +13,9 @@ using Mono.Options;
 using Sander0542.Authentication.Authelia;
 using Serilog;
 using Serilog.Events;
+using System.Linq;
+using GraphQL.AspNet.Interfaces.Schema;
+using GraphQL.AspNet.ServerExtensions.MultipartRequests;
 
 namespace AnanaPhone
 {
@@ -189,8 +193,9 @@ namespace AnanaPhone
 			if (Application.Environment.IsDevelopment())
 			{
 				Application.UseCors(devCorsOrigin);
-			}
 
+			}
+			Application.UseHttpLogging();
 			//Application.UseSerilogRequestLogging();
 
 			// Configure the HTTP request pipeline.
@@ -217,6 +222,7 @@ namespace AnanaPhone
 
 
 
+			
 
 
 			// Pass Selected Environment Variables Through to Frontend

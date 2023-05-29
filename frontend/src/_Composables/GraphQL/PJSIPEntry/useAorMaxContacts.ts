@@ -4,11 +4,18 @@ import type { IPJSIPEntry } from './IPJSIPEntry';
 const useAorMaxContacts = (model: Ref<IPJSIPEntry | null>) => {
 	return computed({
 		get() {
-			return model.value?.aorMaxContacts === undefined ? null : model.value?.aorMaxContacts;
+			const parsed = parseInt(`${model.value?.aorMaxContacts || ''}`, 10);
+			if (isNaN(parsed)) {
+				return null;
+			}
+			return parsed;
 		},
 		set(payload) {
+			
+			const parsed = parseInt(`${payload || ''}`, 10);
+			
 			const mod = model.value || {};
-			mod.aorMaxContacts = (payload === null || payload === undefined) ? undefined : payload;
+			mod.aorMaxContacts = isNaN(parsed) ? null : parsed;
 			model.value = mod;
 		}
 	});

@@ -37,13 +37,17 @@ services:
      - VMAIL_S3_BUCKET=vmail
      - ASTERISK_DEBUG_SSH_PORT_FILE=/secrets/ASTERISK_DEBUG_SSH_PORT.txt
      - ASTERISK_DEBUG_SSH_USER_FILE=/secrets/ASTERISK_DEBUG_SSH_USER.txt
+     #- ASTERISK_DEBUG_SSH_ENABLE=true # debug
      - ASTERISK_DEBUG_SSH_ENABLE=false
+     #- AMI_PW=aaa # debug
      - ASTERISK_EXTERNAL_IP_ADDRESS_FILE=/secrets/ASTERISK_EXTERNAL_IP_ADDRESS.txt
      - NODE_ENV=development
      - VITE_NODE_ENV=development
      - ASTERISK_HOME_AREA_CODE=204
      - ASTERISK_RECORDINGS_DIRECTORY=/recordings
      - ASTERISK_AGI_HOST_FILE=/secrets/ASTERISK_AGI_HOST.txt
+     #- ASTERISK_AGI_HOST_FILE=/secrets/ASTERISK_AGI_HOST_DEBUG.txt # debug
+     - GENERATE_ASTERISK_CONFIG=true
     networks:
      - ananaphone
   ananaphone-minio:

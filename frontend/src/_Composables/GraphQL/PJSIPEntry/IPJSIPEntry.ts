@@ -1,6 +1,6 @@
 interface IPJSIPEntry {
 	name?: string | null;
-	hasHint?: boolean;
+	hasHint?: boolean | null;
 	hintExten?: string | null;
 	hintContext?: string | null;
 	inboundAuthUsername?: string | null;
@@ -8,29 +8,29 @@ interface IPJSIPEntry {
 	outboundAuthUsername?: string | null;
 	outboundAuthPassword?: string | null;
 	endpointCallerid?: string | null;
-	aorMaxContacts?: number;
+	aorMaxContacts?: number | null;
 	remoteHosts?: string[];
 	type?: string | null;
-	acceptsAuth?: boolean;
-	acceptsRegistrations?: boolean;
+	acceptsAuth?: boolean | null;
+	acceptsRegistrations?: boolean | null;
 	endpointAllow?: string[] | null;
-	endpointDirectMedia?: boolean;
-	endpointForceRport?: boolean;
-	endpointRewriteContact?: boolean;
-	endpointRTPSymmetric?: boolean;
-	aorQualifyFrequency?: number;
+	endpointDirectMedia?: boolean | null;
+	endpointForceRport?: boolean | null;
+	endpointRewriteContact?: boolean | null;
+	endpointRTPSymmetric?: boolean | null;
+	aorQualifyFrequency?: number | null;
 	endpointContext?: string | null;
-	sendsAuth?: boolean;
-	sendsRegistrations?: boolean;
-	endpointT38Udptl?: boolean;
+	sendsAuth?: boolean | null;
+	sendsRegistrations?: boolean | null;
+	endpointT38Udptl?: boolean | null;
 	endpointT38UdptlEc?: string | null;
-	endpointFaxDetect?: boolean;
-	endpointTrustIdInbound?: boolean;
-	endpointT38UdptlNat?: boolean;
+	endpointFaxDetect?: boolean | null;
+	endpointTrustIdInbound?: boolean | null;
+	endpointT38UdptlNat?: boolean | null;
 	endpointDTMFMode?: string | null;
 	endpointAllowSubscribe?: boolean;
 	endpointTransport?: string | null;
-	xDummyPlaceholder?: string;
+	xDummyPlaceholder?: string | null;
 }
 
 const generateEmpty = (): IPJSIPEntry => {

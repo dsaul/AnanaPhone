@@ -80,7 +80,6 @@ namespace AnanaPhone.SettingsManager
 				PJSIPWizardRow.DeleteNotIds(DB, Name, insertedRows);
 		}
 
-
 		public string? Id
 		{
 			get
@@ -88,7 +87,6 @@ namespace AnanaPhone.SettingsManager
 				return Name;
 			}
 		}
-
 
 		public string? Name
 		{
@@ -100,6 +98,7 @@ namespace AnanaPhone.SettingsManager
 				return Rows.FirstOrDefault()?.Name;
 			}
 		}
+
 		public bool? HasHint
 		{
 			get
@@ -134,16 +133,21 @@ namespace AnanaPhone.SettingsManager
 				}
 
 
-				row ??= new()
+				if (row == null)
 				{
-					Setting = PJSIPWizardRow.kSettingKeyHasHint,
-				};
+					row = new()
+					{
+						Setting = PJSIPWizardRow.kSettingKeyHasHint,
+					};
+					Rows.Add(row);
+				}
 
 				row.Value = value.Value ? "yes" : "no";
 
 				
 			}
 		}
+
 		public string? HintExten
 		{
 			get
@@ -172,16 +176,21 @@ namespace AnanaPhone.SettingsManager
 				}
 
 
-				row ??= new()
+				if (row == null)
 				{
-					Setting = PJSIPWizardRow.kSettingKeyHintExten,
-				};
+					row = new()
+					{
+						Setting = PJSIPWizardRow.kSettingKeyHintExten,
+					};
+					Rows.Add(row);
+				}
 
 				row.Value = value;
 
 				
 			}
 		}
+
 		public string? HintContext
 		{
 			get
@@ -210,16 +219,21 @@ namespace AnanaPhone.SettingsManager
 				}
 
 
-				row ??= new()
+				if (row == null)
 				{
-					Setting = PJSIPWizardRow.kSettingKeyHintContext,
-				};
+					row = new()
+					{
+						Setting = PJSIPWizardRow.kSettingKeyHintContext,
+					};
+					Rows.Add(row);
+				}
 
 				row.Value = value;
 
 				
 			}
 		}
+
 		public string? InboundAuthUsername
 		{
 			get
@@ -248,10 +262,14 @@ namespace AnanaPhone.SettingsManager
 				}
 
 
-				row ??= new()
+				if (row == null)
 				{
-					Setting = PJSIPWizardRow.kSettingKeyInboundAuthUsername,
-				};
+					row = new()
+					{
+						Setting = PJSIPWizardRow.kSettingKeyInboundAuthUsername,
+					};
+					Rows.Add(row);
+				}
 
 				row.Value = value;
 
@@ -286,10 +304,14 @@ namespace AnanaPhone.SettingsManager
 				}
 
 
-				row ??= new()
+				if (row == null)
 				{
-					Setting = PJSIPWizardRow.kSettingKeyInboundAuthPassword,
-				};
+					row = new()
+					{
+						Setting = PJSIPWizardRow.kSettingKeyInboundAuthPassword,
+					};
+					Rows.Add(row);
+				}
 
 				row.Value = value;
 
@@ -324,10 +346,14 @@ namespace AnanaPhone.SettingsManager
 				}
 
 
-				row ??= new()
+				if (row == null)
 				{
-					Setting = PJSIPWizardRow.kSettingKeyEndpointCallerid,
-				};
+					row = new()
+					{
+						Setting = PJSIPWizardRow.kSettingKeyEndpointCallerid,
+					};
+					Rows.Add(row);
+				}
 
 				row.Value = value;
 
@@ -1415,7 +1441,6 @@ namespace AnanaPhone.SettingsManager
 		}
 
 
-
 		public string? OutboundAuthUsername
 		{
 			get
@@ -1443,11 +1468,15 @@ namespace AnanaPhone.SettingsManager
 					return;
 				}
 
-
-				row ??= new()
+				if (row == null)
 				{
-					Setting = PJSIPWizardRow.kSettingKeyOutboundAuthUsername,
-				};
+					row = new()
+					{
+						Setting = PJSIPWizardRow.kSettingKeyOutboundAuthUsername,
+					};
+					Rows.Add(row);
+				}
+				
 
 				row.Value = value;
 
@@ -1482,10 +1511,14 @@ namespace AnanaPhone.SettingsManager
 				}
 
 
-				row ??= new()
+				if (row == null)
 				{
-					Setting = PJSIPWizardRow.kSettingKeyOutboundAuthPassword,
-				};
+					row = new()
+					{
+						Setting = PJSIPWizardRow.kSettingKeyOutboundAuthPassword,
+					};
+					Rows.Add(row);
+				}
 
 				row.Value = value;
 

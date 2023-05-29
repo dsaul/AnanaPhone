@@ -39,14 +39,7 @@ namespace AnanaPhone.Boot
 
 			// MixMonitor("/etc/asterisk/_monitors/${EXTEN}/Outbound-${STRFTIME(${EPOCH},,%Y-%m-%d %H-%M-%S)}.wav",b);
 
-			if (EnvAsterisk.ASTERISK_DEBUG_SSH_ENABLE)
-			{
-				Log.Information("[{Class}.{Method}()] Running remotely, skipping writing conf file.",
-					GetType().Name,
-					System.Reflection.MethodBase.GetCurrentMethod()?.Name
-				);
-			}
-			else
+			if (Env.GENERATE_ASTERISK_CONFIG)
 			{
 				string contents = file.Generate();
 

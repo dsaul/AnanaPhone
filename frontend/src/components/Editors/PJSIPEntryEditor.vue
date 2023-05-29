@@ -135,7 +135,7 @@ const onClickSaveChanges = () => {
 		console.warn('name.value === null');
 		return;
 	}
-	console.log('onClickSaveChanges', editModel.value);
+	// console.log('onClickSaveChanges', editModel.value);
 	
 	upsert(editModel.value, name.value, props.usesTemplate, props.isTemplate);
 }
@@ -437,17 +437,17 @@ const onClickSaveChanges = () => {
 					</div>
 
 					<div class="flex flex-row gap-2">
-						<q-btn color="primary" @click="onClickSaveChanges" :disable="isAnyLoading" :loading="upsertLoading">
-							<div class="flex flex-row items-center gap-2">
-								<MDIContentSave class="w-4 h-4" />
-								<div>Save Changes</div>
-							</div>
-						</q-btn>
-						<q-space />
 						<q-btn v-if="showRemove" color="red" @click="onClickRemove" :disable="isAnyLoading">
 							<div class="flex flex-row items-center gap-2">
 								<MDIDelete class="w-4 h-4" />
 								<div>Remove</div>
+							</div>
+						</q-btn>
+						<q-space />
+						<q-btn color="primary" @click="onClickSaveChanges" :disable="isAnyLoading" :loading="upsertLoading">
+							<div class="flex flex-row items-center gap-2">
+								<MDIContentSave class="w-4 h-4" />
+								<div>Save Changes</div>
 							</div>
 						</q-btn>
 					</div>

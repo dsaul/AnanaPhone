@@ -1,4 +1,5 @@
 ﻿using AnanaPhone.Calls;
+using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 using PasswordGenerator;
 using Serilog;
 using System.Reflection;
@@ -14,13 +15,27 @@ namespace AnanaPhone.Boot
 
 		SettingsManager.Manager SM { get; init; }
 
-		static string PasswordForToday { get; } = new Password(
-			includeLowercase: true, 
-			includeUppercase: true, 
-			includeNumeric: true, 
-			includeSpecial: false, 
-			passwordLength: 20
-		).Next();
+		private string _PasswordForToday = new Password(
+					includeLowercase: true,
+					includeUppercase: true,
+					includeNumeric: true,
+					includeSpecial: false,
+					passwordLength: 20
+				).Next();
+		string PasswordForToday
+		{
+			get
+			{
+				if (EnvAsterisk.ASTERISK_DEBUG_SSH_ENABLE)
+				{
+					return Env.AMI_PW;
+				}
+				else
+				{
+					return _PasswordForToday;
+				}
+			}
+		}
 
 		public BootManager(SettingsManager.Manager _SM)
         {
@@ -34,6 +49,8 @@ namespace AnanaPhone.Boot
 				GetType().Name,
 				System.Reflection.MethodBase.GetCurrentMethod()?.Name
 			);
+
+
 
 			// Pass AMI password onto Serve
 			string amiPWPath = "/tmp/AMI_PW";

@@ -17,7 +17,19 @@ namespace AnanaPhone
 			}
 		}
 
+		public static bool GENERATE_ASTERISK_CONFIG
+		{
+			get
+			{
+				string? payload = Environment.GetEnvironmentVariable("GENERATE_ASTERISK_CONFIG");
+				if (string.IsNullOrWhiteSpace(payload))
+					return true;
+				if (bool.TryParse(payload, out bool _payload))
+					return _payload;
+				return true;
+			}
 
+		}
 
 		static string? _AMI_PW;
 		public static string AMI_PW

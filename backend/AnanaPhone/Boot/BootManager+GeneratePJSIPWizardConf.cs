@@ -108,14 +108,8 @@ namespace AnanaPhone.Boot
 				Sections = sections,
 			};
 
-			if (EnvAsterisk.ASTERISK_DEBUG_SSH_ENABLE)
-			{
-				Log.Information("[{Class}.{Method}()] Running remotely, skipping writing conf file.",
-					GetType().Name,
-					System.Reflection.MethodBase.GetCurrentMethod()?.Name
-				);
-			}
-			else
+			
+			if (Env.GENERATE_ASTERISK_CONFIG)
 			{
 				string contents = Factory.Generate(file);
 				File.WriteAllText("/etc/asterisk/pjsip_wizard.conf", contents);

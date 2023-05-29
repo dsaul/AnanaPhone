@@ -5,8 +5,6 @@ using Serilog;
 using AsterNET.Manager.Event;
 using AnanaPhone.Calls;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
-using Polly;
-using System.Threading.Channels;
 
 namespace AnanaPhone.AMI
 {
