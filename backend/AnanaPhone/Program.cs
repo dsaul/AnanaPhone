@@ -1,6 +1,7 @@
 using Amazon.S3;
 using AnanaPhone.AMI;
 using AnanaPhone.ARI;
+using AnanaPhone.AsteriskContexts;
 using AnanaPhone.Boot;
 using AnanaPhone.Calls;
 using AnanaPhone.Conferences;
@@ -119,6 +120,19 @@ namespace AnanaPhone
 					config
 				);
 			});
+
+			builder.Services.AddSingleton<ConfBridgeAdmin>();
+			builder.Services.AddSingleton<ConfBridgeExternal>();
+			builder.Services.AddSingleton<Inbound>();
+			builder.Services.AddSingleton<Outbound>();
+			builder.Services.AddSingleton<AsteriskContexts.Extensions>();
+			builder.Services.AddSingleton<FAC>();
+			builder.Services.AddSingleton<AsteriskContexts.Conference>();
+			builder.Services.AddSingleton<AttendantFromExternal>();
+			builder.Services.AddSingleton<AttendantDoYouAcceptTheCall>();
+			builder.Services.AddSingleton<AttendantTrackedAdminDirectToConference>();
+			builder.Services.AddSingleton<AttendantTrackedExternalDirectToConference>();
+			builder.Services.AddSingleton<OutboundMonitor>();
 		}
 
 		static void Stage2(string[] args)
@@ -161,6 +175,12 @@ namespace AnanaPhone
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 			ApplicationSharedSingletons(builder);
+
+
+
+
+
+
 
 			builder.Services.AddGraphQL();
 

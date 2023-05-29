@@ -1,11 +1,13 @@
-﻿using DanSaul.SharedCode.Asterisk.AsteriskAEL.Statements;
+﻿using DanSaul.SharedCode.Asterisk.AsteriskAEL;
+using DanSaul.SharedCode.Asterisk.AsteriskAEL.Statements;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 
-namespace DanSaul.SharedCode.Asterisk.AsteriskAEL.Contexts
+namespace AnanaPhone.AsteriskContexts
 {
+	[MarkContextIncluded]
 	public class AttendantTrackedExternalDirectToConference : ContextBlock
 	{
-        public AttendantTrackedExternalDirectToConference() : base("attendant-tracked-external-direct-to-conference")
+		public AttendantTrackedExternalDirectToConference() : base("attendant-tracked-external-direct-to-conference")
 		{
 			Extensions.Add(
 				new ExtensionBlock("_.")
@@ -31,5 +33,5 @@ namespace DanSaul.SharedCode.Asterisk.AsteriskAEL.Contexts
 			);
 
 		}
-    }
+	}
 }

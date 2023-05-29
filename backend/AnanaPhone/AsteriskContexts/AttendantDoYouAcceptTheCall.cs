@@ -1,19 +1,20 @@
-﻿using DanSaul.SharedCode.Asterisk.AsteriskAEL.Statements;
+﻿using DanSaul.SharedCode.Asterisk.AsteriskAEL;
+using DanSaul.SharedCode.Asterisk.AsteriskAEL.Statements;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 
-namespace DanSaul.SharedCode.Asterisk.AsteriskAEL.Contexts
+namespace AnanaPhone.AsteriskContexts
 {
-	public class AttendantTrackedAdminDirectToConference : ContextBlock
+	[MarkContextIncluded]
+	public class AttendantDoYouAcceptTheCall : ContextBlock
 	{
-        public AttendantTrackedAdminDirectToConference() : base("attendant-tracked-admin-direct-to-conference")
+		public AttendantDoYouAcceptTheCall() : base("attendant-do-you-accept-the-call")
 		{
 			Extensions.Add(
 				new ExtensionBlock("_.")
-					.Add(new SetStatement("LANDED_CONFERENCE_NAME", "${EXTEN}"))
-					.Add(new SetStatement("CALL_TARGET", "JoinConference"))
+					.Add(new SetStatement("CALL_TARGET", "SeekOwnerOfCallRequest"))
 					.Add(
 						new WhileStatement("true")
-							.Add(new AGIStatement(EnvAsterisk.ASTERISK_AGI_HOST, $"/{typeof(AttendantTrackedAdminDirectToConference).Name}"))
+							.Add(new AGIStatement(EnvAsterisk.ASTERISK_AGI_HOST, $"/{typeof(AttendantDoYouAcceptTheCall).Name}"))
 							.Add(
 								new IfStatementBlock(@"""${CALL_TARGET}"" = ""HangUp""")
 									.Add(new HangUpStatement())
@@ -29,7 +30,6 @@ namespace DanSaul.SharedCode.Asterisk.AsteriskAEL.Contexts
 					.Add(new PlaybackStatement("/etc/asterisk/_sounds/were-sorry-the-incoming-call-has-already-hung-up-goodbye"))
 					.Add(new HangUpStatement())
 			);
-
 		}
 	}
 }

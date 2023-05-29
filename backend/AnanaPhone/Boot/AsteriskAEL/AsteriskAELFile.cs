@@ -6,7 +6,7 @@ namespace DanSaul.SharedCode.Asterisk.AsteriskAEL
 	public class AsteriskAELFile
 	{
 		public List<ContextBlock> Contexts { get; } = new();
-		public GlobalsBlock? Globals { get; init; } = null;
+		public GlobalsBlock Globals { get; init; } = new();
 		public string? PreambleComment { get; init; } = null;
 		public bool ShowGeneratedWarning { get; init; } = true;
 
@@ -32,9 +32,6 @@ namespace DanSaul.SharedCode.Asterisk.AsteriskAEL
 			foreach (ContextBlock context in Contexts)
 				sb.AppendLine(context.Generate(indentLevel));
 			
-
-
-
 			return sb.ToString();
 		}
 	}

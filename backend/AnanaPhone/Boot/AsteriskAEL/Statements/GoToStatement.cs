@@ -18,5 +18,11 @@
 			Context = _Context;
 			Extension = _Extension;
 		}
+
+		public GoToStatement(ContextBlock _Context, string _Extension)
+		{
+			Context = _Context.ContextName;
+			Extension = _Extension;
+		}
     }
 }

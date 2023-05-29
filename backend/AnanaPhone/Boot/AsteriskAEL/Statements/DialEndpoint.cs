@@ -4,8 +4,8 @@ namespace DanSaul.SharedCode.Asterisk.AsteriskAEL.Statements
 {
 	public record DialEndpoint
 	{
-		public string Technology { get; init; }
-		public string Extension { get; init; }
+		public string? Technology { get; init; }
+		public string? Extension { get; init; }
 		public string? Device { get; init; }
 
 		public override string ToString()

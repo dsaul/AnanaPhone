@@ -2,7 +2,6 @@
 
 namespace DanSaul.SharedCode.Asterisk.AsteriskAEL
 {
-	[Block]
 	public class Block
 	{
 		public virtual string Generate(int indentLevel)

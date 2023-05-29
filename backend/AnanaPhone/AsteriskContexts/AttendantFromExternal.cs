@@ -1,11 +1,13 @@
-﻿using DanSaul.SharedCode.Asterisk.AsteriskAEL.Statements;
+﻿using DanSaul.SharedCode.Asterisk.AsteriskAEL;
+using DanSaul.SharedCode.Asterisk.AsteriskAEL.Statements;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 
-namespace DanSaul.SharedCode.Asterisk.AsteriskAEL.Contexts
+namespace AnanaPhone.AsteriskContexts
 {
+	[MarkContextIncluded]
 	public class AttendantFromExternal : ContextBlock
 	{
-        public AttendantFromExternal() : base("attendant-from-external")
+		public AttendantFromExternal() : base("attendant-from-external")
 		{
 			Extensions.Add(
 				new ExtensionBlock("_.")
@@ -24,5 +26,5 @@ namespace DanSaul.SharedCode.Asterisk.AsteriskAEL.Contexts
 			);
 
 		}
-    }
+	}
 }

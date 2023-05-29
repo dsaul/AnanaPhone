@@ -113,6 +113,8 @@ namespace AnanaPhone.Calls
 		{
 			if (DB == null)
 				throw new Exception("DB == null");
+			if (string.IsNullOrWhiteSpace(call.Id))
+				throw new Exception("string.IsNullOrWhiteSpace(call.Id)");
 
 			using SQLiteCommand command = DB.CreateCommand();
 
