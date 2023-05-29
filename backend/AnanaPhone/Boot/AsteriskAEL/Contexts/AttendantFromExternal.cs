@@ -9,7 +9,7 @@ namespace DanSaul.SharedCode.Asterisk.AsteriskAEL.Contexts
 		{
 			Extensions.Add(
 				new ExtensionBlock("_.")
-					.Add(new SetStatement("LANDED_CONFERENCE_NAME", "${EXTEN}"))
+					.Add(new SetStatement("LANDED_DID", "${EXTEN}"))
 					.Add(new SetStatement("CALL_TARGET", "SeekOwnerOfCallRequest"))
 					.Add(
 						new WhileStatement("true")

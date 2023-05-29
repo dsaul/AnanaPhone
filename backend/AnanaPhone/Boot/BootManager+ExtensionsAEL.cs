@@ -1,5 +1,7 @@
 ﻿using DanSaul.SharedCode.Asterisk.AsteriskAEL;
 using DanSaul.SharedCode.Asterisk.AsteriskAEL.Contexts;
+using DanSaul.SharedCode.Asterisk.AsteriskINI;
+using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 using Serilog;
 
 namespace AnanaPhone.Boot
@@ -74,13 +76,25 @@ namespace AnanaPhone.Boot
 			file.Contexts.Add(bogusCtx);
 
 
-			string output = file.Generate();
-
-			Log.Information("AEL: {output}", output);
+			
 
 
 			// MixMonitor("/etc/asterisk/_monitors/${EXTEN}/Outbound-${STRFTIME(${EPOCH},,%Y-%m-%d %H-%M-%S)}.wav",b);
 
+			if (EnvAsterisk.ASTERISK_DEBUG_SSH_ENABLE)
+			{
+				Log.Information("[{Class}.{Method}()] Running remotely, skipping writing conf file.",
+					GetType().Name,
+					System.Reflection.MethodBase.GetCurrentMethod()?.Name
+				);
+			}
+			else
+			{
+				string contents = file.Generate();
+
+				//Log.Information("AEL: {output}", contents);
+				File.WriteAllText("/etc/asterisk/extensions.ael", contents);
+			}
 		}
 	}
 }

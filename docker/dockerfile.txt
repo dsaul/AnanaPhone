@@ -82,8 +82,7 @@ RUN dos2unix /cron15min.sh /cronDaily.sh /cronHourly.sh /cronMonthly.sh /cronWee
 # Configure Asterisk
 RUN rm -rf /etc/asterisk/
 COPY docker/includes/asterisk/ /etc/asterisk/
-RUN dos2unix /etc/asterisk/* && \
-	dos2unix /etc/asterisk/extensions.d/*
+RUN dos2unix /etc/asterisk/*
 
 
 

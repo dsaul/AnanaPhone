@@ -2,7 +2,6 @@
 using Serilog;
 using DanSaul.SharedCode.Asterisk;
 using NodaTime;
-using Newtonsoft.Json;
 using Amazon.S3.Model;
 using Amazon.S3;
 using Renci.SshNet;
