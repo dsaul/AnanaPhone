@@ -30,7 +30,10 @@
             "ASTERISK_DEBUG_SSH_PORT_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_DEBUG_SSH_PORT.txt",
             "ASTERISK_DEBUG_SSH_USER_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_DEBUG_SSH_USER.txt",
             "ASTERISK_DEBUG_SSH_ENABLE": "true",
-            "AMI_PW": "aaa"
+            "AMI_PW": "aaa",
+            "ASTERISK_HOME_AREA_CODE": "204",
+            "ASTERISK_RECORDINGS_DIRECTORY": "/recordings",
+            "ASTERISK_AGI_HOST_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_AGI_HOST.txt"
         }
     },
     "IIS Express": {
@@ -52,7 +55,10 @@
             "ASTERISK_DEBUG_SSH_PORT_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_DEBUG_SSH_PORT.txt",
             "ASTERISK_DEBUG_SSH_USER_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_DEBUG_SSH_USER.txt",
             "ASTERISK_DEBUG_SSH_ENABLE": "true",
-            "AMI_PW": "aaa"
+            "AMI_PW": "aaa",
+            "ASTERISK_HOME_AREA_CODE": "204",
+            "ASTERISK_RECORDINGS_DIRECTORY": "/recordings",
+            "ASTERISK_AGI_HOST_FILE": "C:\\Users\\Dan\\Desktop\\TestDatabaseDirectory\\ASTERISK_AGI_HOST.txt"
         }
     }
   }

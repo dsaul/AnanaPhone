@@ -5,7 +5,7 @@ namespace AnanaPhone
 {
 	public static class Env
 	{
-		
+
 		public static string VITE_API_ROOT
 		{
 			get
@@ -377,10 +377,6 @@ namespace AnanaPhone
 				return payload;
 			}
 		}
-
-
-
-
 
 
 

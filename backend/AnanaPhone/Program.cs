@@ -21,11 +21,6 @@ namespace AnanaPhone
 		public static void Main(string[] args)
 		{
 			Log.Logger = new LoggerConfiguration()
-				.Enrich.WithMachineName()
-				.Enrich.FromLogContext()
-				.Enrich.WithProcessId()
-				.Enrich.WithThreadId()
-				.Enrich.WithMachineName()
 				.MinimumLevel.Debug()
 				.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
 				.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)

@@ -41,6 +41,9 @@ services:
      - ASTERISK_EXTERNAL_IP_ADDRESS_FILE=/secrets/ASTERISK_EXTERNAL_IP_ADDRESS.txt
      - NODE_ENV=development
      - VITE_NODE_ENV=development
+     - ASTERISK_HOME_AREA_CODE=204
+     - ASTERISK_RECORDINGS_DIRECTORY=/recordings
+     - ASTERISK_AGI_HOST_FILE=/secrets/ASTERISK_AGI_HOST.txt
     networks:
      - ananaphone
   ananaphone-minio:

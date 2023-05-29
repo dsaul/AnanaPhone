@@ -2,7 +2,6 @@
 using DanSaul.SharedCode.Asterisk.AsteriskINI;
 using DanSaul.SharedCode.StandardizedEnvironmentVariables;
 using Serilog;
-using System.Linq;
 
 namespace AnanaPhone.Boot
 {

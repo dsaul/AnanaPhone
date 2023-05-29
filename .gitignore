@@ -15,3 +15,4 @@
 /frontend/node_modules
 /frontend/yarn.lock
 /frontend/package-lock.json
+/docker/secrets/MINIO_CONFIG_ENV_FILE.txt

@@ -3,9 +3,10 @@ using System.Text;
 
 namespace DanSaul.SharedCode.Asterisk.AsteriskAEL
 {
-	public record AsteriskAELFile
+	public class AsteriskAELFile
 	{
-		//public IEnumerable<Section> Sections { get; init; } = Array.Empty<Section>();
+		public List<ContextBlock> Contexts { get; } = new();
+		public GlobalsBlock? Globals { get; init; } = null;
 		public string? PreambleComment { get; init; } = null;
 		public bool ShowGeneratedWarning { get; init; } = true;
 
@@ -13,15 +14,28 @@ namespace DanSaul.SharedCode.Asterisk.AsteriskAEL
 		const int kCommentMaxLineLength = 80;
 		const string kCommentLinePrefix = "// ";
 
-		public void Generate(StringBuilder sb)
+		public string Generate()
 		{
-			if (ShowGeneratedWarning)
-				sb.AppendLine(kGeneratedWarning.MaxLineLengthAddPrefix(kCommentMaxLineLength));
-			if (!string.IsNullOrEmpty(PreambleComment))
-				sb.AppendLine(PreambleComment.MaxLineLengthAddPrefix(kCommentMaxLineLength));
+			int indentLevel = 0;
 
-			//foreach (Section section in Sections)
-			//	section.Generate(sb);
+
+			StringBuilder sb = new();
+
+			if (ShowGeneratedWarning)
+				sb.AppendLine(kGeneratedWarning.MaxLineLengthAddPrefix(kCommentMaxLineLength, kCommentLinePrefix));
+			if (!string.IsNullOrEmpty(PreambleComment))
+				sb.AppendLine(PreambleComment.MaxLineLengthAddPrefix(kCommentMaxLineLength, kCommentLinePrefix));
+
+			if (Globals != null)
+				sb.AppendLine(Globals.Generate(indentLevel));
+
+			foreach (ContextBlock context in Contexts)
+				sb.AppendLine(context.Generate(indentLevel));
+			
+
+
+
+			return sb.ToString();
 		}
 	}
 }

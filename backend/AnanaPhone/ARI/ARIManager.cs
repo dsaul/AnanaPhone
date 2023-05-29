@@ -18,20 +18,20 @@ namespace AnanaPhone.ARI
 			{
 				new ScriptMapping() {
 					ScriptClass = typeof(AttendantFromExternal).FullName ?? "",
-					ScriptName = "AttendantFromExternal",
+					ScriptName = typeof(AttendantFromExternal).Name,
 				},
 				new ScriptMapping()
 				{
 					ScriptClass =  typeof(AttendantDoYouAcceptTheCall).FullName ?? "",
-					ScriptName = "AttendantDoYouAcceptTheCall",
+					ScriptName = typeof(AttendantDoYouAcceptTheCall).Name,
 				},
 				new ScriptMapping() {
 					ScriptClass = typeof(AttendantTrackedAdminDirectToConference).FullName ?? "",
-					ScriptName = "AttendantTrackedAdminDirectToConference",
+					ScriptName = typeof(AttendantTrackedAdminDirectToConference).Name,
 				},
 				new ScriptMapping() {
 					ScriptClass = typeof(AttendantTrackedExternalDirectToConference).FullName ?? "",
-					ScriptName = "AttendantTrackedExternalDirectToConference",
+					ScriptName = typeof(AttendantTrackedExternalDirectToConference).Name,
 				},
 			});
 
