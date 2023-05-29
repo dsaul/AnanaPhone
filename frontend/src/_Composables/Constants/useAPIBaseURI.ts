@@ -4,7 +4,7 @@ const useAPIBaseURI = () => {
 	return computed(() => {
 		
 		if (import.meta.env.DEV) {
-			return 'http://localhost:5040/';
+			return 'http://localhost:5203/';
 		} else {
 			return '/';
 		}
