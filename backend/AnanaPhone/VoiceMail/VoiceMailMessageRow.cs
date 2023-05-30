@@ -163,7 +163,7 @@ namespace AnanaPhone.VoiceMail
 
 			string sql = @"
 				INSERT INTO messages
-				(id,callerIdNumber,callerIdName,timestampISO8601) 
+				(id,callerIdNumber,callerIdName,timestampISO8601,path) 
 				VALUES
 				(@id,@callerIdNumber,@callerIdName,@timestampISO8601)
 				ON CONFLICT(id) DO UPDATE SET 
