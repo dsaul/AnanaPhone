@@ -23,8 +23,8 @@ namespace AnanaPhone
 		{
 			Log.Logger = new LoggerConfiguration()
 				.MinimumLevel.Debug()
-				.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-				.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+				.MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
+				.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Debug)
 				.WriteTo.Console()
 				.CreateLogger();
 
