@@ -1,8 +1,5 @@
-﻿using AnanaPhone.Calls;
-using AnanaPhone.SettingsManager;
-using GraphQL.AspNet.Attributes;
+﻿using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
-using Serilog;
 
 namespace AnanaPhone.GraphQL
 {
