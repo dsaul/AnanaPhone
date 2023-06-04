@@ -11,6 +11,7 @@
 /docker/includes/holdmusic/cg.wav
 /docker/includes/holdmusic/faix.wav
 /docker/includes/holdmusic/on1.wav
+/frontend/dist
 /frontend/.quasar
 /frontend/node_modules
 /frontend/yarn.lock
